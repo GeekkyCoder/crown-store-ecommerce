@@ -1,4 +1,21 @@
-const { productExistWithId, addToCart,getLatestCartId, updateItemInCart } = require("../modal/cart.modal");
+const cartsDB = require("../modal/cart.mongo")
+
+const {
+  productExistWithId,
+  addToCart,
+  getLatestCartId,
+  updateItemInCart,
+  getAllCartItems,
+} = require("../modal/cart.modal");
+
+async function getAllItems(req, res) {
+  try {
+    const allItems = await getAllCartItems();
+    return res.status(200).json(allItems);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
 
 async function addNewItemToCart(req, res) {
   const product = req.body;
@@ -8,37 +25,52 @@ async function addNewItemToCart(req, res) {
     return res.status(400).json("plz add a product first");
   }
 
-  const productExist = await productExistWithId(product);
+  const productExist = await productExistWithId(product.id);
 
   if (!productExist) {
+    console.log("does not exist");
     /// add the new product
     const item = await addToCart(product);
-    const latestProductId = await getLatestCartId() + 1
-    const newItem = {...item,id:latestProductId}
-    return res.status(201).json(newItem._doc);
+    const latestProductId = (await getLatestCartId()) + 1;
+    const newItem = { ...item, id: latestProductId };
+    return res.status(201).json(item);
   } else {
     // already exist in the db
     return res.status(400).json("product already exist");
   }
 }
 
-async function updateCartItem(req,res){
-   const productId = req.params.id
-   const product = req.body 
+async function updateCartItem(req, res) {
+  const productId = req.params.id;
+  const product = req.body;
 
-   if((!product.name || !product.imageUrl || !product.price)) return res.status(400).status("payload required")
+  if (!product.name || !product.imageUrl || !product.price)
+    return res.status(400).status("payload required");
 
-   const productExist = await productExistWithId(productId)
+  const productExist = await productExistWithId(productId);
 
-   if(!productExist) return res.status(400).json("no such item ")
+  if (!productExist) return res.status(400).json("no such item ");
 
-   const deletedCartItem = await updateItemInCart(productExist,product)
+  const deletedCartItem = await updateItemInCart(productExist, product);
 
-   return res.status(200).json(deletedCartItem)
+  return res.status(200).json(deletedCartItem);
+}
 
+async function removeItem(req, res) {
+  const itemId = req.params.id;
+  try {
+    const itemExist = await productExistWithId(itemId);
+    if(!itemExist) return res.status(500).json("item does not exist")
+    const deletedItem = await cartsDB.deleteOne(itemExist)
+    return res.status(200).json(deletedItem);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 }
 
 module.exports = {
   addNewItemToCart,
-  updateCartItem
+  updateCartItem,
+  getAllItems,
+  removeItem
 };

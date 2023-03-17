@@ -1,10 +1,12 @@
-const { addNewItemToCart, updateCartItem } = require("./cart.controller")
+const { addNewItemToCart, updateCartItem, getAllItems, removeItem } = require("./cart.controller")
 
 
 const cartRouter = require("express").Router()
 
-cartRouter.post("/cart", addNewItemToCart)
-cartRouter.put("/cart/:id", updateCartItem)
+cartRouter.get("/", getAllItems)
+cartRouter.post("/", addNewItemToCart)
+cartRouter.put("/:id", updateCartItem)
+cartRouter.delete("/:id",removeItem)
 
 
 module.exports = cartRouter

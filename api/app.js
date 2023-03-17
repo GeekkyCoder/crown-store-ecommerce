@@ -12,6 +12,6 @@ app.use(express.json())
 app.use(cors())
 
 app.use("/products",productsRouter)
-app.use("/products",cartRouter)
+app.use("/cart",cartRouter)
 
 module.exports = app

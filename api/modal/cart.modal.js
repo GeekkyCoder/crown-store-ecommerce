@@ -1,9 +1,10 @@
+const { updateCartItem } = require("../controllers/cart.controller");
 const cartsDB = require("./cart.mongo");
 
 const DEFAULT_CART_ID = 1
 
-async function productExistWithId(id) {
-  return await cartsDB.findOne({ id });
+async function productExistWithId(productId) {
+  return await cartsDB.findOne({ id:productId });
 }
 
 async function addToCart(product) {
@@ -22,7 +23,7 @@ async function getLatestCartId() {
 
 
 async function updateItemInCart(productToUpdate,payloadProduct){
-   const removedItem = await cartsDB.updateOne({
+   const updatedItem = await cartsDB.updateOne({
     id:productToUpdate.id
    },{
       name:payloadProduct.name,
@@ -31,12 +32,18 @@ async function updateItemInCart(productToUpdate,payloadProduct){
     upsert:true
    })
 
-   return removedItem
+   return updatedItem
 }  
+
+
+async function getAllCartItems(){
+  return await cartsDB.find({},{"_id":0,"__v":0}).sort({'id':1})
+}
 
 module.exports = {
   productExistWithId,
   addToCart,
   getLatestCartId,
   updateItemInCart,
+  getAllCartItems,
 };
