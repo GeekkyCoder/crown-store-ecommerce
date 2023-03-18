@@ -41,7 +41,7 @@ async function updateItemInCart(productToUpdate, payloadProduct) {
 }
 
 async function getAllCartItems() {
-  return await cartsDB.find({}, { _id: 0, __v: 0 }).sort({ id: 1 });
+  return await cartsDB.find({}, { _id: 0, __v: 0 }).sort({ id: 1 }).limit(1);
 }
 
 module.exports = {

@@ -25,19 +25,16 @@ async function addNewItemToCart(req, res) {
   }
 
   // does the product exist in the db  ?
-  
   const productExist = await productExistWithId(product.id);
 
-  if (!productExist) {
-    console.log("does not exist");
-    /// add the new product
-    const item = await addToCart(product);
-    const latestProductId = (await getLatestCartId()) + 1;
-    const newItem = { ...item, id: latestProductId };
-    return res.status(201).json(item);
+  if (productExist) {
+    return res.status(403).json({
+      message:"product already exist"
+    })
   } else {
-    // already exist in the db
-    return res.status(400).json("product already exist");
+    // add the item into the cart db
+    const item = await addToCart(product);
+    return res.status(201).json(item);
   }
 }
 

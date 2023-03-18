@@ -1,7 +1,25 @@
- function getCatogories(state){
-    const catogories = state.catogories.catogories
-    return catogories
-}
+import {createSelector} from "reselect"
 
+ const catogoriesSelectorReducer = (state) => state.catogories
+ 
+ export const isLoadingSelector = (state) => state.catogories.isLoading
+ 
+ export const selectCatogories = (createSelector(
+    [catogoriesSelectorReducer],
+    (catogoriesSlice) => {
+        return catogoriesSlice.catogories
+    }))
+ 
 
-module.exports = getCatogories
+export const getCatogories = createSelector(
+    [selectCatogories],
+    (catogories) => {
+        console.log("selector fired")
+        return catogories
+    }
+)
+
+//  function getCatogories(state){
+//     const catogories = state.catogories.catogories
+//     return catogories
+// }

@@ -1,5 +1,7 @@
 const app = require("./app");
 const mongoose = require("mongoose");
+const cluster = require("cluster")
+
 const { addProductsIntoDb } = require("./modal/shop.modal");
 
 app.get("/", (req, res) => {
@@ -10,6 +12,13 @@ mongoose.connection.on("open", ()=> {
     console.log("mongoose connected successfully!")
 })
 
+if(cluster.isMaster){
+  cluster.fork()
+  cluster.fork()
+}else {
+  startServer()
+}
+
 async function startServer(){
     await mongoose.connect(process.env.MONGO_URL)
     await addProductsIntoDb()
@@ -19,4 +28,4 @@ async function startServer(){
       
 }
 
-startServer()
+
