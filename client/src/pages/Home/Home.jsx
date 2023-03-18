@@ -6,7 +6,7 @@ import Directory from "../../components/Directory/Directory.jsx";
 const Home = () => {
   return (
     <>
-      <div className="mx-auto w-full max-w-[90%]">
+      <div className="mx-auto w-full md:max-w-[90%]">
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<Directory />} />

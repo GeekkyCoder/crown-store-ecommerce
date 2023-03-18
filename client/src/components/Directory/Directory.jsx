@@ -4,7 +4,7 @@ import SHOP_DATA from "../../SHOP_DATA";
 function Directory() {
   return (
     <>
-      <div className="grid grid-rows-3 grid-cols-3 p-5 mt-10 gap-5 place-items-center justify-center shadow-sm" >
+      <div className="grid md:grid-rows-3 grid-rows-6 grid-cols-1 md:grid-cols-3 p-5 mt-10 gap-5 md:place-items-center justify-center shadow-sm" >
         {SHOP_DATA.map(({id,title,imageUrl}) => {
               return <CatogoryItem id={id} title={title} imageUrl={imageUrl} />;
             })}

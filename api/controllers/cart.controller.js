@@ -19,12 +19,13 @@ async function getAllItems(req, res) {
 
 async function addNewItemToCart(req, res) {
   const product = req.body;
-  // does the product exist in the db ?
 
   if (!product.name || !product.imageUrl || !product.price) {
     return res.status(400).json("plz add a product first");
   }
 
+  // does the product exist in the db  ?
+  
   const productExist = await productExistWithId(product.id);
 
   if (!productExist) {
