@@ -1,4 +1,4 @@
-const cartsDB = require("../modal/cart.mongo")
+const cartsDB = require("../modal/cart.mongo");
 
 const {
   productExistWithId,
@@ -24,15 +24,19 @@ async function addNewItemToCart(req, res) {
     return res.status(400).json("plz add a product first");
   }
 
-  const cartItemExist = await cartsDB.findOne({id:product.id})
+  const cartItemExist = await cartsDB.findOne({ id: product.id });
 
-  console.log(cartItemExist)
-
-  // does the product exist in the db  ?
-
+  if (cartItemExist) {
+    const updatedCartDBElement = await cartsDB.findOneAndUpdate(
+      { id: cartItemExist.id },
+      { quantity: cartItemExist.quantity + 1 }
+    );
+    return res.status(200).json(updatedCartDBElement);
+  } else {
     // add the item into the cart db
     const item = await addToCart(product);
     return res.status(201).json(item);
+  }
 }
 
 async function updateCartItem(req, res) {
@@ -46,17 +50,19 @@ async function updateCartItem(req, res) {
 
   if (!productExist) return res.status(400).json("no such item ");
 
-  const deletedCartItem = await updateItemInCart(productExist, product);
+  const updatedCartItem = await updateItemInCart(productExist, product);
 
-  return res.status(200).json(deletedCartItem);
+  return res.status(200).json(updatedCartItem);
 }
+
+
 
 async function removeItem(req, res) {
   const itemId = req.params.id;
   try {
     const itemExist = await productExistWithId(itemId);
-    if(!itemExist) return res.status(500).json("item does not exist")
-    const deletedItem = await cartsDB.findOneAndDelete({id:itemExist.id})
+    if (!itemExist) return res.status(500).json("item does not exist");
+    const deletedItem = await cartsDB.findOneAndDelete({ id: itemExist.id });
     return res.status(200).json(deletedItem);
   } catch (err) {
     return res.status(500).json(err);
@@ -67,5 +73,5 @@ module.exports = {
   addNewItemToCart,
   updateCartItem,
   getAllItems,
-  removeItem
+  removeItem,
 };

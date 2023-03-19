@@ -1,63 +1,39 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { isLoadingSelector } from "../../store/catogories/catogoriesSelector";
+import {isLoadingSelector } from "../../store/catogories/catogoriesSelector";
 import {
   ADD_ITEM_INTO_CART,
+  CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
 } from "../../store/cart/cart.actions";
-import { getCartItems } from "../../store/cart/cartSelector";
-import { Fragment } from "react";
+import { cartCountSelector, getCartItems } from "../../store/cart/cartSelector";
+import { Fragment,useCallback } from "react";
 
 const ProductCard = ({ product }) => {
   const isLoading = useSelector(isLoadingSelector);
   const cartData = useSelector(getCartItems);
+  const cartCount = useSelector(cartCountSelector)
   const { id, name, imageUrl, price } = product;
   const dispatch = useDispatch();
 
-  const addToCart = async (productToAdd) => {
-    // check for item if it already exist in the cart db
-     const itemExist = cartData.find(cartItem => {
-      return cartItem.id === productToAdd.id
-     })
 
-     console.log(itemExist)
+  const addToCart = useCallback(async (productToAdd) => {
+     try{
+         const cartItem = await axios.post('http://localhost:8000/cart',{
+          id:productToAdd.id,
+          name:productToAdd.name,
+          imageUrl:productToAdd.imageUrl,
+          price:productToAdd.price
+         })
+         console.log(cartItem.data)
+         dispatch(ADD_ITEM_INTO_CART(cartItem.data))
+         dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1))
+     }catch(err){
+        console.log(err)
+     }
 
-    if (!itemExist) {
-      const newItems = [...cartData, { ...productToAdd, quantity: 1 }];
-      try {
-        const cartItem = await axios.post("http://localhost:8000/cart", {
-          id: newItems[0].id,
-          name: newItems[0].name,
-          imageUrl: newItems[0].imageUrl,
-          price: newItems[0].price,
-          quantity: newItems[0].quantity,
-        });
+    },[cartData])
 
-        dispatch(ADD_ITEM_INTO_CART(cartItem.data));
-      } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err));
-      }
-    } else {
-      const newItem = cartData.find((cartItem) => {
-        // look for the the cart item in productsdb
-        return cartItem.id === productToAdd.id
-          ? { ...productToAdd, quantity: cartItem.quantity + 1 }
-          : 1;
-      });
-      try {
-        const cartItem = await axios.post("http://localhost:8000/cart", {
-          id: newItem.id,
-          name: newItem.name,
-          imageUrl: newItem.imageUrl,
-          price: newItem.price,
-          quantity:newItem.quantity,
-        });
-        dispatch(ADD_ITEM_INTO_CART(cartItem.data));
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
 
   return (
     <Fragment key={id}>

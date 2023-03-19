@@ -2,6 +2,7 @@ import CART_ACTION_TYPES from "./cart.actionTypes";
 
 const INITIAL_STATE = {
   cartItems: [],
+  cartCount:0,
   isLoading: false,
   error: null,
 };
@@ -29,13 +30,18 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
     case CART_ACTION_TYPES.ADD_TO_CART:
       return {
         ...state,
-        CartItems: payload,
+        CartItems: [...state.cartItems,payload],
       };
     case CART_ACTION_TYPES.REMOVE_FROM_CART:
       return {
         ...state,
         cartItems: payload,
       };
+    case CART_ACTION_TYPES.INCREMENT_CART_ITEM_COUNT:
+      return {
+        ...state,
+        cartCount:payload
+      }
     default:
       return state;
   }

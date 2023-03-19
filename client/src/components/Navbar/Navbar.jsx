@@ -2,8 +2,12 @@ import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Logo from "../../Assets/crown.svg";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useSelector } from "react-redux";
+import { cartCountSelector } from "../../store/cart/cartSelector";
 
 const Navbar = () => {
+  const cartCount = useSelector(cartCountSelector)
+
   return (
     <>
       <div className="flex items-center p-5 mt-5 font-sans uppercase font-bold bg-white shadow-lg">
@@ -16,12 +20,12 @@ const Navbar = () => {
             Shop
           </Link>
           <Link className="text-gray-500 hover:text-black">Sign in</Link>
-          <Link  to={"/cart"} >
+      {cartCount && <Link  to={"/cart"} >
           <ShoppingCartOutlinedIcon
             fontSize="large"
             style={{ color: "gray" }}
           />
-          </Link>
+          </Link>}
         
         </div>
       </div>

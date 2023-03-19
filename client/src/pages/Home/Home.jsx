@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Shop from "../../components/Shop/Shop";
 import Directory from "../../components/Directory/Directory.jsx";
 import Cart from "../../components/Cart/Cart";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   SET_CART_ITEMS_FAILED,
@@ -16,8 +16,11 @@ import {
   fetch_catogories_success,
   fetch_catogries_start,
 } from "../../store/catogories/catogories.actions";
+import { cartCountSelector } from "../../store/cart/cartSelector";
 
 const Home = () => {
+const cartCount = useSelector(cartCountSelector)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const Home = () => {
       }
     };
     fetchCartData();
-  }, []);
+  }, [cartCount]);
 
   useEffect(() => {
     const fetchCatogories = async () => {

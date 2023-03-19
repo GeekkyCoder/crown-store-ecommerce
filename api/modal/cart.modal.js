@@ -10,8 +10,13 @@ async function productExistWithId(productId) {
 
 
 async function addToCart(product) {
-  const newProduct = await new cartsDB(product);
-  return await newProduct.save();
+  const newProduct = await cartsDB.findOneAndUpdate(
+    {id:product.id},
+    {...product,quantity:1},
+    {upsert:true}
+    )
+    console.log("hao")
+  return newProduct
 }
 
 async function getLatestCartId() {
