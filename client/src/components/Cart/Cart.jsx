@@ -13,6 +13,20 @@ const Cart = () => {
   const cartData = useSelector(getCartItems);
   const dispatch = useDispatch();
 
+  const removeItemFromCart = async (id) => {
+    try {
+      const cartItemToDelete = await axios.delete(
+        `http://localhost:8000/cart/${id}`
+      );
+      const newCartItems = cartData.filter(
+        (cartItem) => cartItem.id !== cartItemToDelete.data.id
+      );
+      dispatch(SET_CART_ITEMS_SUCCESS(newCartItems));
+    } catch (err) {
+      dispatch(SET_CART_ITEMS_FAILED(err));
+    }
+  };
+
   useEffect(() => {
     const fetchCartData = async () => {
       dispatch(SET_CART_ITEMS_START());
@@ -24,28 +38,34 @@ const Cart = () => {
         dispatch(SET_CART_ITEMS_FAILED(err));
       }
     };
-    fetchCartData()
+    fetchCartData();
   }, []);
 
 
+  console.log(cartData)
 
   return (
     <>
+      <div>
+        {cartData.length ?
+          cartData.map(({ id, name, imageUrl, price }) => {
+            return (
+              <div key={id}>
+                {name}
+                <img src={imageUrl} alt={name} />
+                <p>{price}</p>
+                <button onClick={() => removeItemFromCart(id)}>remove</button>
+              </div>
+            );
+          })
+        :
         <div>
-            {
-                cartData && cartData.map(({id,name,imageUrl,price}) => {
-                    return (
-                        <div>
-                            {name}
-                            <img src={imageUrl} alt={name} />
-                            <p>{price}</p>
-                            <buton>remove</buton>
-                        </div>  
-                    )
-                })
-            }
-        </div>    
-   </>);
+            laoding....
+        </div>
+        }
+      </div>
+    </>
+  );
 };
 
 export default Cart;

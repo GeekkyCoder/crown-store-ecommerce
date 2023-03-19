@@ -59,7 +59,7 @@ async function removeItem(req, res) {
   try {
     const itemExist = await productExistWithId(itemId);
     if(!itemExist) return res.status(500).json("item does not exist")
-    const deletedItem = await cartsDB.deleteOne(itemExist)
+    const deletedItem = await cartsDB.findOneAndDelete({id:itemExist.id})
     return res.status(200).json(deletedItem);
   } catch (err) {
     return res.status(500).json(err);
