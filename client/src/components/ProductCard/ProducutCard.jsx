@@ -1,18 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-
-import {
-  ADD_ITEM_INTO_CART,
-  SET_CART_ITEMS_FAILED,
-  SET_CART_ITEMS_START,
-  SET_CART_ITEMS_SUCCESS,
-} from "../../store/cart/cart.actions";
 import axios from "axios";
-import getCartItems from "../../store/cart/cartSelector";
 import { isLoadingSelector } from "../../store/catogories/catogoriesSelector";
+import {ADD_ITEM_INTO_CART} from "../../store/cart/cart.actions"
 
-const ProductCard = ({ product }) => {
-  const cartData = useSelector(getCartItems);
+const ProductCard = (({ product }) => {
   const isLoading = useSelector(isLoadingSelector)
   const { id, name, imageUrl, price } = product;
   const dispatch = useDispatch();
@@ -26,29 +17,11 @@ const ProductCard = ({ product }) => {
         imageUrl: productToAdd.imageUrl,
         price: productToAdd.price,
       });
-      dispatch(ADD_ITEM_INTO_CART(cartItem.data));
+      dispatch(ADD_ITEM_INTO_CART (cartItem.data));
     } catch (err) {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    // get all cart items
-    const fetchCartData = async () => {
-       dispatch(SET_CART_ITEMS_START())
-      try {
-        const data = await axios.get("http://localhost:8000/cart");
-        const cartItems = data.data;
-         dispatch(SET_CART_ITEMS_SUCCESS(cartItems));
-      } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err))
-      }
-    };
-    fetchCartData();
-    console.log(cartData)
-  }, []);
-
-
 
   return (
     <>
@@ -86,6 +59,6 @@ const ProductCard = ({ product }) => {
       }
     </>
   );
-};
+});
 
 export default ProductCard;

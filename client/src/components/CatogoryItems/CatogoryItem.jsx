@@ -4,7 +4,7 @@ const CatogoryItem = ({ id, title, imageUrl }) => {
   return (
     <>
       <div
-        key={id}
+        key={title}
         className="w-full my-4 relative hover:scale-[1.05] transition-all"
       >
         {/* <img width={"100%"} src={imageUrl} alt={title} /> */}

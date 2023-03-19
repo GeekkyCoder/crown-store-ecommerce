@@ -15,3 +15,7 @@ export const SET_CART_ITEMS_SUCCESS = (cartItems) => {
 export const SET_CART_ITEMS_FAILED = (err) => {
     return {type:CART_ACTION_TYPES.SET_CART_ITEMS_FAILED,payload:err}
 }
+
+export const REMOVE_FROM_CART = () => {
+    return {type:CART_ACTION_TYPES.REMOVE_FROM_CART}
+}

@@ -26,11 +26,16 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: false,
         error: payload,
       };
-    // case CART_ACTION_TYPES.ADD_TO_CART:
-    //   return {
-    //     ...state,
-    //     CartItems: payload,
-    //   };
+    case CART_ACTION_TYPES.ADD_TO_CART:
+      return {
+        ...state,
+        CartItems: payload,
+      };
+    case CART_ACTION_TYPES.REMOVE_FROM_CART:
+      return {
+        ...state,
+        cartItems: payload,
+      };
     default:
       return state;
   }

@@ -12,14 +12,17 @@ const Navbar = () => {
         </Link>
 
         <div className="ml-auto flex gap-10 items-center">
-          <Link className="text-gray-500 hover:text-black" to={"/shop"}>
+          <Link to={"/shop"} className="text-gray-500 hover:text-black" >
             Shop
           </Link>
           <Link className="text-gray-500 hover:text-black">Sign in</Link>
+          <Link  to={"/cart"} >
           <ShoppingCartOutlinedIcon
             fontSize="large"
             style={{ color: "gray" }}
           />
+          </Link>
+        
         </div>
       </div>
       <Outlet />
