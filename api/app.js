@@ -13,10 +13,10 @@ app.use(express.json())
 app.use(cors())
 
 
-// app.use((req,res,next) => {
-//     next()
-//     console.log(`${req.method}${req.url}`)
-// })
+app.use((req,res,next) => {
+    next()
+    console.log(`${req.method}${req.url}`)
+})
 
 app.use("/products",productsRouter)
 app.use("/cart",cartRouter)

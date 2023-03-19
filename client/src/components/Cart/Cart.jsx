@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   SET_CART_ITEMS_FAILED,
@@ -27,34 +26,22 @@ const Cart = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      dispatch(SET_CART_ITEMS_START());
-      try {
-        const data = await axios.get("http://localhost:8000/cart");
-        const cartItems = data.data;
-        dispatch(SET_CART_ITEMS_SUCCESS(cartItems));
-      } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err));
-      }
-    };
-    fetchCartData();
-  }, []);
 
-
-  console.log(cartData)
 
   return (
     <>
       <div>
         {cartData.length ?
-          cartData.map(({ id, name, imageUrl, price }) => {
+          cartData.map(({ id, name, imageUrl, price,quantity }) => {
             return (
               <div key={id}>
                 {name}
                 <img src={imageUrl} alt={name} />
                 <p>{price}</p>
+                <p>{quantity}</p>
                 <button onClick={() => removeItemFromCart(id)}>remove</button>
+                <button className="bg-white shadow-md p-2 m-2">+</button>
+                <button className="bg-white shadow-md p-2">-</button>
               </div>
             );
           })

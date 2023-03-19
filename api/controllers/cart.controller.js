@@ -24,18 +24,15 @@ async function addNewItemToCart(req, res) {
     return res.status(400).json("plz add a product first");
   }
 
-  // does the product exist in the db  ?
-  const productExist = await productExistWithId(product.id);
+  const cartItemExist = await cartsDB.findOne({id:product.id})
 
-  if (productExist) {
-    return res.status(403).json({
-      message:"product already exist"
-    })
-  } else {
+  console.log(cartItemExist)
+
+  // does the product exist in the db  ?
+
     // add the item into the cart db
     const item = await addToCart(product);
     return res.status(201).json(item);
-  }
 }
 
 async function updateCartItem(req, res) {

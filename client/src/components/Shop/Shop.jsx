@@ -1,32 +1,10 @@
-import { Fragment, useEffect } from "react";
-
-import { useDispatch } from "react-redux";
+import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import {
-  fetch_Catogories_fail,
-  fetch_catogories_success,
-  fetch_catogries_start,
-} from "../../store/catogories/catogories.actions";
-import {getCatogories} from "../../store/catogories/catogoriesSelector";
+import { getCatogories } from "../../store/catogories/catogoriesSelector";
 import ProductCard from "../ProductCard/ProducutCard";
 
 const Shop = () => {
   const catogoriesData = useSelector(getCatogories);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchCatogories = async () => {
-       dispatch(fetch_catogries_start());
-      try {
-        const data = await axios.get("http://localhost:8000/products");
-        dispatch(fetch_catogories_success(data.data));
-      } catch (err) {
-        dispatch(fetch_Catogories_fail(err));
-      }
-    };
-    fetchCatogories();
-  }, []);
 
   return (
     <div>
