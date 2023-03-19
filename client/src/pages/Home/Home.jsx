@@ -16,26 +16,9 @@ import {
   fetch_catogories_success,
   fetch_catogries_start,
 } from "../../store/catogories/catogories.actions";
-import { cartCountSelector } from "../../store/cart/cartSelector";
 
 const Home = () => {
-const cartCount = useSelector(cartCountSelector)
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const fetchCartData = async () => {
-      dispatch(SET_CART_ITEMS_START());
-      try {
-        const data = await axios.get("http://localhost:8000/cart");
-        const cartItems = data.data;
-        dispatch(SET_CART_ITEMS_SUCCESS(cartItems));
-      } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err));
-      }
-    };
-    fetchCartData();
-  }, [cartCount]);
 
   useEffect(() => {
     const fetchCatogories = async () => {

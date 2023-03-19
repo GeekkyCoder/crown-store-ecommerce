@@ -43,8 +43,8 @@ async function updateCartItem(req, res) {
   const productId = req.params.id;
   const product = req.body;
 
-  if (!product.name || !product.imageUrl || !product.price)
-    return res.status(400).status("payload required");
+  if (!product.quantity)
+    return res.status(400).status("quantity required");
 
   const productExist = await productExistWithId(productId);
 

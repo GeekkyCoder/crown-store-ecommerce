@@ -20,12 +20,15 @@ const Navbar = () => {
             Shop
           </Link>
           <Link className="text-gray-500 hover:text-black">Sign in</Link>
-      {cartCount && <Link  to={"/cart"} >
+      {cartCount ? <Link  to={"/cart"} >
           <ShoppingCartOutlinedIcon
             fontSize="large"
             style={{ color: "gray" }}
           />
-          </Link>}
+          </Link>
+        :
+        <span>no items</span>  
+        }
         
         </div>
       </div>

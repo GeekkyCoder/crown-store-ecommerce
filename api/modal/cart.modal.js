@@ -8,15 +8,14 @@ async function productExistWithId(productId) {
   return await cartsDB.findOne({ id: productId });
 }
 
-
 async function addToCart(product) {
   const newProduct = await cartsDB.findOneAndUpdate(
-    {id:product.id},
-    {...product,quantity:1},
-    {upsert:true}
-    )
-    console.log("hao")
-  return newProduct
+    { id: product.id },
+    { ...product, quantity: 1 },
+    { upsert: true }
+  );
+  console.log("hao");
+  return newProduct;
 }
 
 async function getLatestCartId() {
@@ -29,13 +28,12 @@ async function getLatestCartId() {
 }
 
 async function updateItemInCart(productToUpdate, payloadProduct) {
-  const updatedItem = await cartsDB.updateOne(
+  const updatedItem = await cartsDB.findOneAndUpdate(
     {
       id: productToUpdate.id,
     },
     {
-      name: payloadProduct.name,
-      price: payloadProduct.price,
+      quantity: payloadProduct.quantity,
     },
     {
       upsert: true,
