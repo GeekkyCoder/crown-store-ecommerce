@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -15,44 +14,77 @@ const Cart = () => {
   const cartData = useSelector(getCartItems);
   const dispatch = useDispatch();
 
-  const removeItemFromCart = async (id) => {
-    try {
-      const cartItemToDelete = await axios.delete(
-        `http://localhost:8000/cart/${id}`
-      );
-      const newCartItems = cartData.filter(
-        (cartItem) => cartItem.id !== cartItemToDelete.data.id
-      );
-      dispatch(SET_CART_ITEMS_SUCCESS(newCartItems));
-    } catch (err) {
-      dispatch(SET_CART_ITEMS_FAILED(err));
-    }
-  };
+  const removeItemFromCart = useCallback(
+    async (id) => {
+      try {
+        const cartItemToDelete = await axios.delete(
+          `http://localhost:8000/cart/${id}`
+        );
+        const newCartItems = cartData.filter(
+          (cartItem) => cartItem.id !== cartItemToDelete.data.id
+        );
+        dispatch(SET_CART_ITEMS_SUCCESS(newCartItems));
+      } catch (err) {
+        dispatch(SET_CART_ITEMS_FAILED(err));
+      }
+    },
+    [cartData]
+  );
 
-  const updateCartQuantityBy1 = async (productId) => {
-    //update the quantityBy1
-    const items = cartData.map((cartItem) => {
-      return cartItem.id === productId
-        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-        : cartItem;
-    });
+  
+  const updateCartQuantityBy1 = useCallback(
+    async (productId) => {
+      //update the quantityBy1
+      const items = cartData.map((cartItem) => {
+        return cartItem.id === productId
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem;
+      });
 
-    const product = items.find((cartItem) => cartItem.id === productId);
+      const product = items.find((cartItem) => cartItem.id === productId);
 
-    try {
-      const updatedCartItem = await axios.put(
-        `http://localhost:8000/cart/${product.id}`,
-        {
-          quantity: product.quantity,
-        }
-      );
-      dispatch(ADD_ITEM_INTO_CART(updatedCartItem))
-    } catch (err) {
-      console.log(err);
-   }
+      try {
+        const updatedCartItem = await axios.put(
+          `http://localhost:8000/cart/${product.id}`,
+          {
+            quantity: product.quantity,
+          }
+        );
+        dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [cartData]
+  );
 
-  };
 
+
+  const removeCartQuantityBy1 = useCallback(
+    async (productId) => {
+      //update the quantityBy1
+      const items = cartData.map((cartItem) => {
+        return cartItem.id === productId
+          ? { ...cartItem, quantity: cartItem.quantity - 1 }
+          : cartItem;
+      });
+
+      const product = items.find((cartItem) => cartItem.id === productId);
+
+      try {
+        const updatedCartItem = await axios.put(
+          `http://localhost:8000/cart/${product.id}`,
+          {
+            quantity: product.quantity,
+          }
+        );
+        dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [cartData]
+  );
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -86,7 +118,12 @@ const Cart = () => {
                 >
                   +
                 </button>
-                <button className="bg-white shadow-md p-2">-</button>
+                <button
+                  onClick={() => removeCartQuantityBy1(id)}
+                  className="bg-white shadow-md p-2"
+                >
+                  -
+                </button>
               </div>
             );
           })
