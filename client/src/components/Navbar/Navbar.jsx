@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import Logo from "../../Assets/crown.svg";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useSelector } from "react-redux";
-import { cartCountSelector } from "../../store/cart/cartSelector";
+import { getCartItems } from "../../store/cart/cartSelector";
 
 const Navbar = () => {
-  const cartCount = useSelector(cartCountSelector)
+  const cartData = useSelector(getCartItems)
 
   return (
     <>
@@ -20,7 +20,8 @@ const Navbar = () => {
             Shop
           </Link>
           <Link className="text-gray-500 hover:text-black">Sign in</Link>
-      {cartCount ? <Link  to={"/cart"} >
+      {cartData.length ? <Link  to={"/cart"} >
+          <div>{cartData.length}</div>
           <ShoppingCartOutlinedIcon
             fontSize="large"
             style={{ color: "gray" }}

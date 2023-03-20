@@ -3,15 +3,17 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ADD_ITEM_INTO_CART,
+  CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
   SET_CART_ITEMS_START,
   SET_CART_ITEMS_SUCCESS,
 } from "../../store/cart/cart.actions";
 
-import { getCartItems } from "../../store/cart/cartSelector";
+import { getCartItems,cartCountSelector } from "../../store/cart/cartSelector";
 
 const Cart = () => {
   const cartData = useSelector(getCartItems);
+  const cartCount = useSelector(cartCountSelector)
   const dispatch = useDispatch();
 
   const removeItemFromCart = useCallback(
@@ -51,6 +53,7 @@ const Cart = () => {
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
+        dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1))
       } catch (err) {
         console.log(err);
       }
@@ -79,6 +82,7 @@ const Cart = () => {
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
+        dispatch(CART_INCREMENT_CART_COUNT(cartCount - 1))
       } catch (err) {
         console.log(err);
       }
@@ -86,19 +90,7 @@ const Cart = () => {
     [cartData]
   );
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      dispatch(SET_CART_ITEMS_START());
-      try {
-        const data = await axios.get("http://localhost:8000/cart");
-        const cartItems = data.data;
-        dispatch(SET_CART_ITEMS_SUCCESS(cartItems));
-      } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err));
-      }
-    };
-    fetchCartData();
-  });
+
 
   return (
     <>
