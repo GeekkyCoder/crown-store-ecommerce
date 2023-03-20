@@ -14,13 +14,12 @@ import {
 } from "./store/catogories/catogories.actions";
 
 import { useDispatch, useSelector } from "react-redux";
-import { cartCountSelector, getCartItems } from "./store/cart/cartSelector";
+import { cartCountSelector } from "./store/cart/cartSelector";
 
 import { useEffect } from "react";
 function App() {
   const dispatch = useDispatch();
   const cartCount = useSelector(cartCountSelector);
-  const cartData = useSelector(getCartItems);
 
   useEffect(() => {
     const fetchCatogories = async () => {

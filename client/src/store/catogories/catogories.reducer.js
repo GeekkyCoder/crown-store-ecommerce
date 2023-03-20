@@ -24,7 +24,7 @@ export const catogoriesReducer = (state = initalState, action) => {
         return {
           ...state,
           error:payload,
-          isLoading:false
+          isLoading:true
         } 
     default:
       return state;

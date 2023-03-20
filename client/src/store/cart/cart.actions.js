@@ -23,6 +23,10 @@ export const CART_INCREMENT_CART_COUNT = (count) => {
     }
 }
 
+export const SET_CART_OPEN = () => {
+    return {type:CART_ACTION_TYPES.SET_CART_OPEN}
+}
+
 export const REMOVE_FROM_CART = () => {
     return {type:CART_ACTION_TYPES.REMOVE_FROM_CART}
 }

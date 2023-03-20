@@ -1,43 +1,52 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {isLoadingSelector } from "../../store/catogories/catogoriesSelector";
+import { isLoadingSelector } from "../../store/catogories/catogoriesSelector";
 import {
   ADD_ITEM_INTO_CART,
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
 } from "../../store/cart/cart.actions";
 import { cartCountSelector, getCartItems } from "../../store/cart/cartSelector";
-import { Fragment,useCallback } from "react";
+import { Fragment, useCallback } from "react";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }) => {
-  const isLoading = useSelector(isLoadingSelector);
   const cartData = useSelector(getCartItems);
-  const cartCount = useSelector(cartCountSelector)
+  const cartCount = useSelector(cartCountSelector);
   const { id, name, imageUrl, price } = product;
   const dispatch = useDispatch();
 
 
-  const addToCart = useCallback(async (productToAdd) => {
-     try{
-         const cartItem = await axios.post('http://localhost:8000/cart',{
-          id:productToAdd.id,
-          name:productToAdd.name,
-          imageUrl:productToAdd.imageUrl,
-          price:productToAdd.price
-         })
-         console.log(cartItem.data)
-         dispatch(ADD_ITEM_INTO_CART(cartItem.data))
-         dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1))
-     }catch(err){
-        console.log(err)
-     }
-
-    },[cartData])
-
+  const addToCart = useCallback(
+    async (productToAdd) => {
+      try {
+        const cartItem = await axios.post("http://localhost:8000/cart", {
+          id: productToAdd.id,
+          name: productToAdd.name,
+          imageUrl: productToAdd.imageUrl,
+          price: productToAdd.price,
+        });
+        toast.success("product added successfully", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        dispatch(ADD_ITEM_INTO_CART(cartItem.data));
+        dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1));
+      } catch (err) {
+        SET_CART_ITEMS_FAILED(err)
+      }
+    },
+    [cartData]
+  );
 
   return (
     <Fragment key={id}>
-      {!isLoading ? (
         <div className="flex-1 relative w-full shadow-lg hover:scale-[1.1] transition-transform">
           <div
             style={{
@@ -65,9 +74,6 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
         </div>
-      ) : (
-        <div className="w-[400px] h-[400px] bg-red-500 ">Loading...</div>
-      )}
     </Fragment>
   );
 };

@@ -5,15 +5,20 @@ import {
   ADD_ITEM_INTO_CART,
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
-  SET_CART_ITEMS_START,
   SET_CART_ITEMS_SUCCESS,
 } from "../../store/cart/cart.actions";
 
-import { getCartItems,cartCountSelector } from "../../store/cart/cartSelector";
+import {
+  getCartItems,
+  cartCountSelector,
+  cartLoadingSelector,
+} from "../../store/cart/cartSelector";
+import Loader from "../Loader/Loader";
 
 const Cart = () => {
   const cartData = useSelector(getCartItems);
-  const cartCount = useSelector(cartCountSelector)
+  const cartCount = useSelector(cartCountSelector);
+  const isCartLoading = useSelector(cartLoadingSelector);
   const dispatch = useDispatch();
 
   const removeItemFromCart = useCallback(
@@ -33,7 +38,6 @@ const Cart = () => {
     [cartData]
   );
 
-  
   const updateCartQuantityBy1 = useCallback(
     async (productId) => {
       //update the quantityBy1
@@ -53,15 +57,13 @@ const Cart = () => {
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
-        dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1))
+        dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1));
       } catch (err) {
         console.log(err);
       }
     },
     [cartData]
   );
-
-
 
   const removeCartQuantityBy1 = useCallback(
     async (productId) => {
@@ -82,47 +84,49 @@ const Cart = () => {
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
-        dispatch(CART_INCREMENT_CART_COUNT(cartCount - 1))
+        dispatch(CART_INCREMENT_CART_COUNT(cartCount - 1));
       } catch (err) {
-        console.log(err);
+        dispatch(SET_CART_ITEMS_FAILED(err))
       }
     },
     [cartData]
   );
 
-
-
   return (
     <>
-      <div>
-        {cartData.length ? (
-          cartData.map(({ id, name, imageUrl, price, quantity }) => {
-            return (
-              <div key={id}>
-                {name}
-                <img src={imageUrl} alt={name} />
-                <p>{price}</p>
-                <p>{quantity}</p>
-                <button onClick={() => removeItemFromCart(id)}>remove</button>
-                <button
-                  onClick={() => updateCartQuantityBy1(id)}
-                  className="bg-white shadow-md p-2 m-2"
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => removeCartQuantityBy1(id)}
-                  className="bg-white shadow-md p-2"
-                >
-                  -
-                </button>
-              </div>
-            );
-          })
-        ) : (
-          <div>laoding....</div>
-        )}
-      </div>
+      {!isCartLoading ? (
+        <div>
+          {cartData.length ? (
+            cartData.map(({ id, name, imageUrl, price, quantity }) => {
+              return (
+                <div key={id}>
+                  {name}
+                  <img src={imageUrl} alt={name} />
+                  <p>{price}</p>
+                  <p>{quantity}</p>
+                  <button onClick={() => removeItemFromCart(id)}>remove</button>
+                  <button
+                    onClick={() => updateCartQuantityBy1(id)}
+                    className="bg-white shadow-md p-2 m-2"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => removeCartQuantityBy1(id)}
+                    className="bg-white shadow-md p-2"
+                  >
+                    -
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <div>laoding....</div>
+          )}
+        </div>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 };

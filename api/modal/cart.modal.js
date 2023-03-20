@@ -14,7 +14,6 @@ async function addToCart(product) {
     { ...product, quantity: 1 },
     { upsert: true }
   );
-  console.log("hao");
   return newProduct;
 }
 
