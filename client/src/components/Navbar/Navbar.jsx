@@ -17,10 +17,9 @@ const Navbar = () => {
     right: false,
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartData = useSelector(getCartItems);
-
 
   const toggleDrawer = (anchor, open) => (event) => {
     dispatch(SET_CART_OPEN());
@@ -44,8 +43,8 @@ const Navbar = () => {
   );
 
   const checkoutRouteHandler = () => {
-    navigate('/cart')
-  }
+    navigate("/cart");
+  };
 
   return (
     <>
@@ -81,7 +80,10 @@ const Navbar = () => {
                   })}
                 </div>
 
-                <button onClick={checkoutRouteHandler} className="p-2 block w-[50%] mx-auto my-2 font-mono uppercase bg-black text-white shadow-md hover:scale-[1.1] transition-all rounded-md">
+                <button
+                  onClick={checkoutRouteHandler}
+                  className="p-2 block w-[50%] mx-auto my-2 font-mono uppercase bg-black text-white shadow-md hover:scale-[1.1] transition-all rounded-md"
+                >
                   Checkout
                 </button>
               </Drawer>
