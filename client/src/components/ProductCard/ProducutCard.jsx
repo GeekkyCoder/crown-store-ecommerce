@@ -49,6 +49,7 @@ const ProductCard = ({ product }) => {
     <Fragment key={id}>
         <div className="flex-1 relative w-full shadow-lg hover:scale-[1.1] transition-transform">
           <div
+          className="bg-gray-400 hover:bg-gray-100"
             style={{
               backgroundImage: `url(${imageUrl})`,
               width: "100%",
@@ -56,6 +57,7 @@ const ProductCard = ({ product }) => {
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center",
+              backgroundBlendMode:"multiply"
             }}
           ></div>{" "}
           <div className="absolute top-[40%] bottom-[40%] left-[30%] my-auto mx-auto">
