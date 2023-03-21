@@ -1,4 +1,14 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Chip from "@mui/material/Chip";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -86,7 +96,7 @@ const Cart = () => {
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
         dispatch(CART_INCREMENT_CART_COUNT(cartCount - 1));
       } catch (err) {
-        dispatch(SET_CART_ITEMS_FAILED(err))
+        dispatch(SET_CART_ITEMS_FAILED(err));
       }
     },
     [cartData]
@@ -97,31 +107,87 @@ const Cart = () => {
       {!isCartLoading ? (
         <div>
           {cartData.length ? (
-            cartData.map(({ id, name, imageUrl, price, quantity }) => {
-              return (
-                <div key={id}>
-                  {name}
-                  <img src={imageUrl} alt={name} />
-                  <p>{price}</p>
-                  <p>{quantity}</p>
-                  <button onClick={() => removeItemFromCart(id)}>remove</button>
-                  <button
-                    onClick={() => updateCartQuantityBy1(id)}
-                    className="bg-white shadow-md p-2 m-2"
+            <TableContainer
+              sx={{
+                maxWidth: " 95%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                textTransform: "uppercase",
+              }}
+              className="mt-10"
+              component={Paper}
+            >
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
                   >
-                    +
-                  </button>
-                  <button
-                    onClick={() => removeCartQuantityBy1(id)}
-                    className="bg-white shadow-md p-2"
-                  >
-                    -
-                  </button>
-                </div>
-              );
-            })
+                    <TableCell className="flex-1 font-mono">id</TableCell>
+                    <TableCell className="flex-1 font-mono ">name</TableCell>
+                    <TableCell className="flex-1 font-mono ">image</TableCell>
+                    <TableCell className="flex-1 font-mono ">
+                      quantity
+                    </TableCell>
+                    <TableCell className="flex-1 font-mono ">price</TableCell>
+                    <TableCell className="flex-1 font-mono ">actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {cartData.map(({ id, name, imageUrl, price, quantity }) => (
+                    <TableRow
+                      key={id}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TableCell className="flex-1" component="th" scope="row">
+                        {id}
+                      </TableCell>
+                      <TableCell className="flex-1">{name}</TableCell>
+                      <TableCell className="flex-1" align="right">
+                        <img className="w-[100px]" src={imageUrl} alt={name} />
+                      </TableCell>
+                      <TableCell className="flex-1">
+                        <div className="flex justify-between items-center w-[100px] ml-8">
+                          <button
+                            className="bg-gray-200 text-gray-900 flex justify-center items-center p-2 rounded-[50%] w-[30px] h-[30px] font-mono"
+                            onClick={() => updateCartQuantityBy1(id)}
+                          >
+                            +
+                          </button>
+                          {quantity}
+                          <button
+                            className="bg-gray-200 text-black flex justify-center items-center p-2 rounded-[50%] w-[30px] h-[30px] font-mono"
+                            onClick={() => removeCartQuantityBy1(id)}
+                          >
+                            -
+                          </button>
+                        </div>
+                      </TableCell>
+                      <TableCell className="flex-1 ml-12">{price}</TableCell>
+                      <TableCell className="flex-1 ">
+                        <Chip
+                          color="error"
+                          icon={<DeleteOutlineIcon />}
+                          className="w-[120px]"
+                          variant="contained"
+                          label="remove"
+                          onClick={() => removeItemFromCart(id)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           ) : (
-            <div>laoding....</div>
+            <div>No items in cart</div>
           )}
         </div>
       ) : (
