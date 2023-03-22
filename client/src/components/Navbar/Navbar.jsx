@@ -53,11 +53,11 @@ const Navbar = () => {
           <img src={Logo} alt="logo" />
         </Link>
 
-        <div className="ml-auto flex gap-10 items-center">
+        <div className="ml-auto flex gap-10 items-center border-red-500">
           <Link to={"/shop"} className="text-gray-500 hover:text-black">
             Shop
           </Link>
-          <Link className="text-gray-500 hover:text-black">Sign in</Link>
+          <Link to={"/signup"} className="text-gray-500 hover:text-black">Sign in</Link>
 
           {["right"].map((anchor) => (
             <Fragment key={anchor}>

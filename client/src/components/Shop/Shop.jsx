@@ -7,6 +7,7 @@ import {
 import ProductCard from "../ProductCard/ProducutCard";
 import { ToastContainer } from "react-toastify";
 
+
 import Loader from "../Loader/Loader";
 const Shop = () => {
   const catogoriesData = useSelector(getCatogories);
