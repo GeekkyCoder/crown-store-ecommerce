@@ -1,4 +1,4 @@
-const { object, string, ref } = require("yup");
+const { object, string, ref, number } = require("yup");
 
 const signUpSchema = object({
   userName: string().min(2).max(20).required("plz provide your username"),

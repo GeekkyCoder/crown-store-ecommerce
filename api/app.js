@@ -5,6 +5,7 @@ require("dotenv").config()
 
 const productsRouter = require("./controllers/products.router")
 const cartRouter = require("./controllers/cart.router")
+const userRouter = require("./controllers/user.router")
 
 const app = express()
 
@@ -20,5 +21,6 @@ app.use((req,res,next) => {
 
 app.use("/products",productsRouter)
 app.use("/cart",cartRouter)
+app.use("/user",userRouter)
 
 module.exports = app

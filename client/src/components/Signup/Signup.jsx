@@ -1,7 +1,22 @@
 import { useFormik } from "formik";
 import signUpSchema from "../../FormSchema/FormSchema";
+import axios from "axios";
+import  {useDispatch, useSelector } from "react-redux";
+import {
+  FETCH_USER_FAILED,
+  FETCH_USER_START,
+  FETCH_USER_SUCCESS,
+} from "../../store/user/user.actions";
+import { currentUserSelector } from "../../store/user/user.selector";
+import { nanoid } from 'nanoid'
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(currentUserSelector)
+
+
+  console.log(currentUser)
+
   const formik = useFormik({
     initialValues: {
       userName: "",
@@ -10,9 +25,25 @@ const SignUp = () => {
       confirmPassword: "",
     },
     validationSchema: signUpSchema,
-    onSubmit: (values, action) => {
-      alert(JSON.stringify(values, null, 2));
-      action.resetForm();
+    onSubmit: async (values, action) => {
+      dispatch(FETCH_USER_START());
+      try {
+        const userData = {
+          id:nanoid(),
+          userName:values.userName,
+          email: values.email,
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+        }
+        const newUser = await axios.post("http://localhost:8000/user/signup", userData);
+        const data = newUser.data;
+        console.log(data)
+        dispatch(FETCH_USER_SUCCESS(data));
+      } catch (err) {
+        dispatch(FETCH_USER_FAILED(err));
+      }
+
+      // action.resetForm();
     },
   });
 
