@@ -7,11 +7,15 @@ import {
 import ProductCard from "../ProductCard/ProducutCard";
 import { ToastContainer } from "react-toastify";
 
-
 import Loader from "../Loader/Loader";
+import { currentUserSelector } from "../../store/user/user.selector";
+import Signin from "../Signin/Signin";
 const Shop = () => {
   const catogoriesData = useSelector(getCatogories);
   const isLoading = useSelector(isLoadingSelector);
+  const currentUser = useSelector(currentUserSelector)
+
+  console.log(currentUser)
 
   const catogoriesJSX = useMemo(() => {
     return (
@@ -46,7 +50,11 @@ const Shop = () => {
     );
   }, [catogoriesData]);
 
-  return <div>{!isLoading ?  catogoriesJSX  : <Loader />}</div>;
+  return (
+    <div>
+     {!currentUser ?   <Signin/> :  <div>{!isLoading ? catogoriesJSX : <Loader />}</div> }
+    </div>
+  );
 };
 
 export default Shop;

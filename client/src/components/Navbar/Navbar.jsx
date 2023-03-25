@@ -11,6 +11,8 @@ import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { SET_CART_OPEN } from "../../store/cart/cart.actions";
 import CartMenu from "../CartMenu/CartMenu";
+import { currentUserSelector } from "../../store/user/user.selector";
+import AccountMenu from "../Profile/Profile";
 
 const Navbar = () => {
   const [state, setState] = useState({
@@ -20,6 +22,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartData = useSelector(getCartItems);
+  const currentUser = useSelector(currentUserSelector)
 
   const toggleDrawer = (anchor, open) => (event) => {
     dispatch(SET_CART_OPEN());
@@ -102,6 +105,10 @@ const Navbar = () => {
           ) : (
             <ShoppingCartOutlinedIcon fontSize="large" />
           )}
+          {currentUser && <div>
+            {/* Welcome {currentUser.email.split("@")[0]} */}
+            <AccountMenu/>
+          </div>}
         </div>
       </div>
       <Outlet />
