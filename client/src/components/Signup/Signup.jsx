@@ -1,66 +1,47 @@
 import { useFormik } from "formik";
-import signUpSchema from "../../FormSchema/FormSchema";
-import axios from "axios";
-import  {useDispatch, useSelector } from "react-redux";
-import {
-  FETCH_USER_FAILED,
-  FETCH_USER_START,
-  FETCH_USER_SUCCESS,
-} from "../../store/user/user.actions";
-import { currentUserSelector } from "../../store/user/user.selector";
-import { nanoid } from 'nanoid'
+import {signUpSchema} from "../../FormSchema/FormSchema";
+import { createUserWithDocument,createUserAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import Signin from "../Signin/Signin";
 
 const SignUp = () => {
-  const dispatch = useDispatch();
-  const currentUser = useSelector(currentUserSelector)
-
-
-  console.log(currentUser)
 
   const formik = useFormik({
     initialValues: {
-      userName: "",
+      displayName: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: signUpSchema,
     onSubmit: async (values, action) => {
-      dispatch(FETCH_USER_START());
       try {
-        const userData = {
-          id:nanoid(),
-          userName:values.userName,
-          email: values.email,
-          password: values.password,
-          confirmPassword: values.confirmPassword,
-        }
-        const newUser = await axios.post("http://localhost:8000/user/signup", userData);
-        const data = newUser.data;
-        console.log(data)
-        dispatch(FETCH_USER_SUCCESS(data));
+        const { user } = await createUserAuthWithEmailAndPassword(
+          values.email,
+          values.password
+        );
+        await createUserWithDocument(user, { displayName: values.displayName });
       } catch (err) {
-        dispatch(FETCH_USER_FAILED(err));
+        console.log(`error: ${err}`);
       }
-
-      // action.resetForm();
+      action.resetForm();
     },
   });
 
   return (
+    <>
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="firstName">First Name</label>
+      <label htmlFor="firstName">User Name</label>
       <input
         className="border border-gray-200"
-        id="userName"
-        name="userName"
+        id="displayName"
+        name="displayName"
         type="text"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.userName}
+        value={formik.values.displayName}
       />
-      {formik.touched.userName && formik.errors.userName ? (
-        <div className="text-red-500">{formik.errors.userName}</div>
+      {formik.touched.displayName && formik.errors.displayName ? (
+        <div className="text-red-500">{formik.errors.displayName}</div>
       ) : null}
 
       <label htmlFor="email">Email Address</label>
@@ -105,6 +86,8 @@ const SignUp = () => {
 
       <button type="submit">Submit</button>
     </form>
+    <Signin/>
+  </>
   );
 };
 

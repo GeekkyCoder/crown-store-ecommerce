@@ -10,7 +10,6 @@ const selectUser = createSelector(
 export const currentUserSelector = createSelector(
   [selectUser],
   (currentUser) => {
-    console.log("user selector fired");
     return currentUser;
   }
 );
