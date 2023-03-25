@@ -1,6 +1,9 @@
-import Home from "./pages/Home/Home";
-import "./App.css";
+import { useEffect } from "react";
 import axios from "axios";
+import "./App.css";
+import { useDispatch, useSelector } from "react-redux";
+
+import Home from "./pages/Home/Home";
 import {
   SET_CART_ITEMS_START,
   SET_CART_ITEMS_SUCCESS,
@@ -13,13 +16,21 @@ import {
   fetch_Catogories_fail,
 } from "./store/catogories/catogories.actions";
 
-import { useDispatch, useSelector } from "react-redux";
 import { cartCountSelector } from "./store/cart/cartSelector";
 
-import { useEffect } from "react";
+import {
+  createUserWithDocument,
+  onAuthUserStateChange,
+} from "./utils/firebase/firebase.utils";
+import { FETCH_USER_SUCCESS } from "./store/user/user.actions";
+import { currentUserSelector } from "./store/user/user.selector";
+
 function App() {
   const dispatch = useDispatch();
   const cartCount = useSelector(cartCountSelector);
+  const currentUser = useSelector(currentUserSelector);
+
+  console.log(currentUser);
 
   useEffect(() => {
     const fetchCatogories = async () => {
@@ -47,6 +58,16 @@ function App() {
     };
     fetchCartData();
   }, [cartCount]);
+
+  useEffect(() => {
+    const unsub = onAuthUserStateChange(async (user) => {
+      if (user) {
+        await createUserWithDocument(user);
+      }
+      dispatch(FETCH_USER_SUCCESS(user));
+    });
+    return unsub;
+  }, []);
 
   return (
     <div>

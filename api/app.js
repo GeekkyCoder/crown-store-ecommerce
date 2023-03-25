@@ -1,17 +1,22 @@
 const express = require("express")
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
 
 require("dotenv").config()
 
 const productsRouter = require("./controllers/products.router")
 const cartRouter = require("./controllers/cart.router")
-const userRouter = require("./controllers/user.router")
+
 
 const app = express()
 
 app.use(express.json())
 
-app.use(cors())
+app.use(cors({
+    origin:"http://localhost:3000"
+}))
+
+app.use(cookieParser())
 
 
 app.use((req,res,next) => {
@@ -21,6 +26,6 @@ app.use((req,res,next) => {
 
 app.use("/products",productsRouter)
 app.use("/cart",cartRouter)
-app.use("/user",userRouter)
+
 
 module.exports = app

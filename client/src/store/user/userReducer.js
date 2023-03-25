@@ -1,7 +1,7 @@
 const USER_ACTION_TYPES = require("./user.actionTypes");
 
 const INITIAL_STATE = {
-  currentUser: {},
+  currentUser: null,
   isLoading: false,
   error: null,
 };

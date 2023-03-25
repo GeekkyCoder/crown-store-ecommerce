@@ -1,19 +1,11 @@
 import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
 import { loginSchema } from "../../FormSchema/FormSchema";
+import { FETCH_USER_SUCCESS } from "../../store/user/user.actions";
 import { signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
-import { useSelector, useDispatch } from "react-redux";
-import { currentUserSelector } from "../../store/user/user.selector";
-import {
-  FETCH_USER_FAILED,
-  FETCH_USER_START,
-  FETCH_USER_SUCCESS,
-} from "../../store/user/user.actions";
 
 const Signin = () => {
-  const currentUser = useSelector(currentUserSelector);
-  const dispatch = useDispatch();
-
-  console.log(currentUser);
+  const dispatch = useDispatch()
 
   const formik = useFormik({
     initialValues: {
@@ -22,13 +14,12 @@ const Signin = () => {
     },
     validationSchema: loginSchema,
     onSubmit: async (values, action) => {
-      dispatch(FETCH_USER_START());
       try {
         const { user } = await signInUserWithEmailAndPassword(
           values.email,
           values.password
         );
-        dispatch(FETCH_USER_SUCCESS(user));
+        dispatch(FETCH_USER_SUCCESS(user))
       } catch (err) {
         switch (err.code) {
           case "auth/user-not-found":
@@ -38,7 +29,6 @@ const Signin = () => {
             alert("wrong password");
             break;
           default:
-            dispatch(FETCH_USER_FAILED(err));
             console.log(err);
         }
       }

@@ -57,7 +57,7 @@ const Navbar = () => {
           <Link to={"/shop"} className="text-gray-500 hover:text-black">
             Shop
           </Link>
-          <Link to={"/signup"} className="text-gray-500 hover:text-black">Sign in</Link>
+          <Link to={"/auth"} className="text-gray-500 hover:text-black">Sign in</Link>
 
           {["right"].map((anchor) => (
             <Fragment key={anchor}>
