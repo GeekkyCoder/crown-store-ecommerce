@@ -108,7 +108,7 @@ const SignUp = () => {
             </button>
             <p className="flex justify-between items-center">
               already have an account ? 
-               <Link to={"/login"}>login </Link>
+               <Link to={"/signin"}>login </Link>
             </p>
           </div>
         </form>

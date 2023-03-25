@@ -30,8 +30,6 @@ function App() {
   const cartCount = useSelector(cartCountSelector);
   const currentUser = useSelector(currentUserSelector);
 
-  console.log(currentUser);
-
   useEffect(() => {
     const fetchCatogories = async () => {
       dispatch(fetch_catogries_start());

@@ -8,20 +8,38 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { currentUserSelector } from "../../store/user/user.selector";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signOutUserAuth } from "../../utils/firebase/firebase.utils";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AccountMenu = () => {
+  const dispatch = useDispatch()
   const currentUser = useSelector(currentUserSelector);
+  const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+ 
 
-  };
+  const handleSignOut = async () => {
+    setAnchorEl(null);
+    await signOutUserAuth()
+    toast.success("logged out successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    navigate("/")
+  }
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -44,8 +62,6 @@ const AccountMenu = () => {
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
-        onClose={handleClose}
-        onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -75,9 +91,9 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleSignOut}>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout  fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

@@ -19,6 +19,8 @@ const Shop = () => {
 
   const catogoriesJSX = useMemo(() => {
     return (
+      <>
+      {currentUser && <h1 className="text-2xl font-bold tracking-wider text-center uppercase font-sans my-8 text-gray-800">Welcome {currentUser.email.split("@")[0]} Enjoy Your Shopping with us</h1>}
       <div>
         {Object.keys(catogoriesData).map((title) => {
           return (
@@ -47,6 +49,7 @@ const Shop = () => {
           );
         })}
       </div>
+        </>
     );
   }, [catogoriesData]);
 

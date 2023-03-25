@@ -13,6 +13,7 @@ import { SET_CART_OPEN } from "../../store/cart/cart.actions";
 import CartMenu from "../CartMenu/CartMenu";
 import { currentUserSelector } from "../../store/user/user.selector";
 import AccountMenu from "../Profile/Profile";
+import { ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const [state, setState] = useState({
@@ -22,7 +23,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartData = useSelector(getCartItems);
-  const currentUser = useSelector(currentUserSelector)
+  const currentUser = useSelector(currentUserSelector);
 
   const toggleDrawer = (anchor, open) => (event) => {
     dispatch(SET_CART_OPEN());
@@ -56,11 +57,13 @@ const Navbar = () => {
           <img src={Logo} alt="logo" />
         </Link>
 
-        <div className="ml-auto flex gap-10 items-center border-red-500">
+        <div className="ml-auto flex gap-10 items-center">
           <Link to={"/shop"} className="text-gray-500 hover:text-black">
             Shop
           </Link>
-          <Link to={"/auth"} className="text-gray-500 hover:text-black">Sign in</Link>
+          <Link to={"/auth"} className="text-gray-500 hover:text-black">
+            Sign in
+          </Link>
 
           {["right"].map((anchor) => (
             <Fragment key={anchor}>
@@ -105,12 +108,14 @@ const Navbar = () => {
           ) : (
             <ShoppingCartOutlinedIcon fontSize="large" />
           )}
-          {currentUser && <div>
-            {/* Welcome {currentUser.email.split("@")[0]} */}
-            <AccountMenu/>
-          </div>}
+         
+          {
+            currentUser ? <AccountMenu/> : <p>not logged in</p>
+          }
+    
         </div>
       </div>
+      <ToastContainer />
       <Outlet />
     </>
   );

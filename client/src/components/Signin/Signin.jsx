@@ -1,12 +1,13 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { loginSchema } from "../../FormSchema/FormSchema";
 import { FETCH_USER_SUCCESS } from "../../store/user/user.actions";
 import { signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 const Signin = () => {
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -19,7 +20,8 @@ const Signin = () => {
           values.email,
           values.password
         );
-        dispatch(FETCH_USER_SUCCESS(user))
+        dispatch(FETCH_USER_SUCCESS(user));
+        navigate("/shop");
       } catch (err) {
         switch (err.code) {
           case "auth/user-not-found":
