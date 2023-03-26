@@ -5,8 +5,9 @@ import {
   createUserAuthWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
 import { Link } from "react-router-dom";
+import crownIcon from "../../Assets/crown.svg";
 
-const SignUp = () => { 
+const SignUp = () => {
   const formik = useFormik({
     initialValues: {
       displayName: "",
@@ -31,46 +32,53 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="flex mt-8 h-screen justify-center items-center font-mono ">
+      <div className="flex  font-sans flex-col mt-12 w-[35%] justify-between items-center mx-auto border-2 border-gray-500 p-2 shadow-lg rounded-md ">
         <form
-          className="flex w-[50%] flex-col border-2 border-gray-100 p-2 bg-white shadow-lg  justify-center"
+          className="flex w-full flex-col items-center"
           onSubmit={formik.handleSubmit}
         >
-          <h1 className="uppercase font-mono font-bold my-5 text-xl text-center">
-            Dont have an account ? sign up here
+          <div className="">
+            <img src={crownIcon} alt="crown-logo" />
+          </div>
+          <h1 className="font-sans  font-bold uppercase text-xl tracking-wide leading-3 my-5">
+            Dont have an account ?
           </h1>
+          <p className="uppercase text-gray-500 font-bold text-xl mb-5">
+            sign up
+          </p>
           <input
-            className="border-2 border-sky-300 w-[80%] my-2 ml-10 rounded-md p-2 font-mono"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600"
             id="displayName"
             name="displayName"
             type="text"
-            placeholder="eg:Faraz"
+            placeholder="username"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.displayName}
           />
-          <p className="ml-10">
+          <p>
             {formik.touched.displayName && formik.errors.displayName ? (
               <div className="text-red-500">{formik.errors.displayName}</div>
             ) : null}
           </p>
 
           <input
-            className="border-2 border-sky-300 w-[80%] my-2 ml-10 rounded-md p-2 font-mono"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600"
             id="email"
             name="email"
             type="email"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            placeholder="faraz@gmail.com"
+            placeholder="email"
           />
-          <p className="ml-10">{formik.touched.email && formik.errors.email ? (
-            <div className="text-red-500">{formik.errors.email}</div>
-          ) : null}
-</p>
+          <p className="ml-10">
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-500">{formik.errors.email}</div>
+            ) : null}
+          </p>
           <input
-            className="border-2 border-sky-300 w-[80%] my-2 ml-10 rounded-md p-2 font-mono"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600"
             id="password"
             name="password"
             type="password"
@@ -79,13 +87,14 @@ const SignUp = () => {
             value={formik.values.password}
             placeholder="password"
           />
-          <p className="ml-10">{formik.touched.password && formik.errors.password ? (
-            <div className="text-red-500">{formik.errors.password}</div>
-          ) : null}
+          <p>
+            {formik.touched.password && formik.errors.password ? (
+              <div className="text-red-500">{formik.errors.password}</div>
+            ) : null}
           </p>
 
           <input
-            className="border-2 border-sky-300 w-[80%] my-2 ml-10 rounded-md p-2 font-mono"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600 text-sm"
             id="confrimPassword"
             name="confirmPassword"
             type="password"
@@ -98,19 +107,21 @@ const SignUp = () => {
             <div className="text-red-500">{formik.errors.confirmPassword}</div>
           ) : null}
 
-          <div className="flex items-center"> 
-            <button
-            type="submit"
-              className=" ml-10 uppercase tracking-wide font-bold bg-black text-white font-mono p-2 rounded-md  my-5 hover:bg-white hover:text-black hover:scale[1.1] border-2 border-black w-[200px] mr-8"
-  
+          <p className="font-sans  mt-5 font-bold text-gray-800">
+            already have an account ?
+            <Link
+              className="ml-2 text-orange-500 hover:text-gray-700"
+              to={"/signin"}
             >
-              Signup
-            </button>
-            <p className="flex justify-between items-center">
-              already have an account ? 
-               <Link to={"/signin"}>login </Link>
-            </p>
-          </div>
+              login{" "}
+            </Link>
+          </p>
+          <button
+            type="submit"
+            className=" uppercase tracking-wide font-bold bg-black text-white font-mono p-2 rounded-md  my-5 hover:bg-white hover:text-black hover:scale[1.1] border-2 border-black w-[200px] "
+          >
+            Signup
+          </button>
         </form>
       </div>
     </>

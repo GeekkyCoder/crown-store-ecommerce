@@ -53,7 +53,7 @@ const Signin = () => {
           onSubmit={formik.handleSubmit}
         >
           <input
-            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-red-400"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600"
             id="email"
             name="email"
             type="email"
@@ -67,7 +67,7 @@ const Signin = () => {
           ) : null}
 
           <input
-            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono focus:border-black placeholder-red-400"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono focus:border-black placeholder-gray-600"
             id="password"
             name="password"
             type="password"
@@ -89,7 +89,7 @@ const Signin = () => {
             </Link>
           </p>
           <button
-            className="bg-black mt-5 text-white border-2 border-gray-400 hover:bg-white hover:text-black p-2 rounded-md font-sans uppercase font-bold w-[50%] transition-colors transition-transform ease-in duration-75 "
+            className="bg-black mt-5 text-white border-2 border-gray-400 hover:bg-white hover:text-black p-2 rounded-md font-sans uppercase font-bold w-[50%] transition-colors  ease-in duration-75 "
             type="submit"
           >
             sign in
