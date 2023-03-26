@@ -95,6 +95,8 @@ const Navbar = () => {
               </Drawer>
             </Fragment>
           ))}
+
+          {currentUser ? <AccountMenu /> : <p>not logged in</p>}
           {cartData.length ? (
             <div>
               {/* <div>{cartData.length}</div> */}
@@ -108,11 +110,6 @@ const Navbar = () => {
           ) : (
             <ShoppingCartOutlinedIcon fontSize="large" />
           )}
-         
-          {
-            currentUser ? <AccountMenu/> : <p>not logged in</p>
-          }
-    
         </div>
       </div>
       <ToastContainer />

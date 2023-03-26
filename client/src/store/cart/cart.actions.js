@@ -16,6 +16,11 @@ export const SET_CART_ITEMS_FAILED = (err) => {
     return {type:CART_ACTION_TYPES.SET_CART_ITEMS_FAILED,payload:err}
 }
 
+
+export const SET_CART_TOTAL_PRICE = (price) => {
+ return {type:CART_ACTION_TYPES.SET_TOTAL_PRICE,payload:price}
+}
+
 export const CART_INCREMENT_CART_COUNT = (count) => {
     return {
         type:CART_ACTION_TYPES.INCREMENT_CART_ITEM_COUNT,

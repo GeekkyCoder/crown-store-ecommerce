@@ -94,7 +94,7 @@ const SignUp = () => {
           </p>
 
           <input
-            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600 text-sm"
+            className="border-2 border-sky-200 w-full p-2 my-2 rounded-md font-mono placeholder-gray-600"
             id="confrimPassword"
             name="confirmPassword"
             type="password"

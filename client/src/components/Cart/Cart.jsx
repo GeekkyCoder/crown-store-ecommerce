@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,12 +16,14 @@ import {
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
   SET_CART_ITEMS_SUCCESS,
+  SET_CART_TOTAL_PRICE,
 } from "../../store/cart/cart.actions";
 
 import {
   getCartItems,
   cartCountSelector,
   cartLoadingSelector,
+  cartTotalPriceSelector,
 } from "../../store/cart/cartSelector";
 import Loader from "../Loader/Loader";
 
@@ -29,6 +31,7 @@ const Cart = () => {
   const cartData = useSelector(getCartItems);
   const cartCount = useSelector(cartCountSelector);
   const isCartLoading = useSelector(cartLoadingSelector);
+  const cartPrice = useSelector(cartTotalPriceSelector);
   const dispatch = useDispatch();
 
   const removeItemFromCart = useCallback(
@@ -102,6 +105,14 @@ const Cart = () => {
     [cartData]
   );
 
+  useEffect(() => {
+    const newPrice = cartData.reduce((acc, item) => {
+      const price = Number(item.price) * item.quantity + acc;
+      return price;
+    }, 0);
+    dispatch(SET_CART_TOTAL_PRICE(newPrice));
+  }, [cartData]);
+
   return (
     <>
       {!isCartLoading ? (
@@ -112,7 +123,6 @@ const Cart = () => {
                 maxWidth: " 95%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                textTransform: "uppercase",
               }}
               className="mt-10"
               component={Paper}
@@ -126,14 +136,21 @@ const Cart = () => {
                       alignItems: "center",
                     }}
                   >
-                    <TableCell className="flex-1 font-mono">id</TableCell>
-                    <TableCell className="flex-1 font-mono ">name</TableCell>
-                    <TableCell className="flex-1 font-mono ">image</TableCell>
-                    <TableCell className="flex-1 font-mono ">
+                    <TableCell className="flex-1 font-mono uppercase">
+                      id
+                    </TableCell>
+                    <TableCell className="flex-1 font-mono uppercase">
+                      name
+                    </TableCell>
+                    <TableCell className="flex-1 font-mono uppercase ">
                       quantity
                     </TableCell>
-                    <TableCell className="flex-1 font-mono ">price</TableCell>
-                    <TableCell className="flex-1 font-mono ">actions</TableCell>
+                    <TableCell className="flex-1 font-mono uppercase">
+                      price
+                    </TableCell>
+                    <TableCell className="flex-1 font-mono uppercase">
+                      actions
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -170,7 +187,9 @@ const Cart = () => {
                           </button>
                         </div>
                       </TableCell>
-                      <TableCell className="flex-1 ml-12">{price}</TableCell>
+                      <TableCell className="flex-1 ml-12">
+                        x{quantity}-{price}
+                      </TableCell>
                       <TableCell className="flex-1 ">
                         <Chip
                           color="error"
@@ -185,6 +204,11 @@ const Cart = () => {
                   ))}
                 </TableBody>
               </Table>
+              <div className="flex justify-end mr-2 font-mono text-2xl p-4">
+                <p className="uppercase text-green-700 ">
+                  Your Sub Total: {cartPrice}
+                </p>
+              </div>
             </TableContainer>
           ) : (
             <div>No items in cart</div>

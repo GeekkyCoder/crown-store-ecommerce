@@ -8,6 +8,8 @@ export const cartLoadingSelector = (state) => state.cart.isLoading
 
 export const cartOpenSelector = (state) => state.cart.cartOpen
 
+export const cartTotalPriceSelector = (state) => state.cart.totalPrice
+
 const selectCart = createSelector(
     [cartItemsSelectorReducer],
     (cartSlice) => cartSlice.cartItems

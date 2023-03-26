@@ -3,6 +3,7 @@ import CART_ACTION_TYPES from "./cart.actionTypes";
 const INITIAL_STATE = {
   cartItems: [],
   cartCount: 0,
+  totalPrice: 0,
   isCartOpen: false,
   isLoading: false,
   error: null,
@@ -27,6 +28,11 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: false,
         error: payload,
+      };
+    case CART_ACTION_TYPES.SET_TOTAL_PRICE:
+      return {
+        ...state,
+        totalPrice: payload,
       };
     case CART_ACTION_TYPES.ADD_TO_CART:
       return {
