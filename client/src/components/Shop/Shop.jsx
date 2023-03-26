@@ -51,7 +51,7 @@ const Shop = () => {
       </div>
         </>
     );
-  }, [catogoriesData]);
+  }, [catogoriesData,currentUser]);
 
   return (
     <div>

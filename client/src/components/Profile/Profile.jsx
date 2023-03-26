@@ -25,6 +25,10 @@ const AccountMenu = () => {
   };
  
 
+  const handleClose = () =>{
+    setAnchorEl(null)
+  }
+
   const handleSignOut = async () => {
     setAnchorEl(null);
     await signOutUserAuth()
@@ -91,8 +95,8 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleSignOut}>
-          <ListItemIcon>
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon onClick={handleSignOut}>
             <Logout  fontSize="small" />
           </ListItemIcon>
           Logout
