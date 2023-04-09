@@ -1,4 +1,4 @@
-const { updateCartItem } = require("../controllers/cart.controller");
+// const { updateCartItem } = require("../../controllers/cart/cart.controller");
 const cartsDB = require("./cart.mongo");
 const productDB = require("./shop.mongo");
 
@@ -9,12 +9,8 @@ async function productExistWithId(productId) {
 }
 
 async function addToCart(product) {
-  const newProduct = await cartsDB.findOneAndUpdate(
-    { id: product.id },
-    { ...product, quantity: 1 },
-    { upsert: true }
-  );
-  return newProduct;
+  const item = await cartsDB.create({ ...product, quantity: 1 });
+  return item;
 }
 
 async function getLatestCartId() {
@@ -42,8 +38,9 @@ async function updateItemInCart(productToUpdate, payloadProduct) {
   return updatedItem;
 }
 
-async function getAllCartItems() {
-  return await cartsDB.find({}, { _id: 0, __v: 0 }).sort({ id: 1 });
+async function getAllCartItems(userId) {
+  console.log("sahi hae")
+  return await cartsDB.find({ createdBy: userId })
 }
 
 module.exports = {

@@ -9,7 +9,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import { currentUserSelector } from "../../store/user/user.selector";
 import { useDispatch, useSelector } from "react-redux";
-import { signOutUserAuth } from "../../utils/firebase/firebase.utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -31,7 +30,6 @@ const AccountMenu = () => {
 
   const handleSignOut = async () => {
     setAnchorEl(null);
-    await signOutUserAuth()
     toast.success("logged out successfully", {
         position: "top-right",
         autoClose: 5000,
@@ -56,9 +54,9 @@ const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32, color: "ButtonFace" }}>
-              {currentUser.email[0].toUpperCase()}
-            </Avatar>
+          {currentUser &&  <Avatar sx={{ width: 32, height: 32, color: "ButtonFace" }}>
+              {currentUser.user.username[0].toUpperCase()}
+            </Avatar>}
           </IconButton>
         </Tooltip>
       </Box>

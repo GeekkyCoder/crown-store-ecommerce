@@ -1,4 +1,4 @@
-const productDB = require("./shop.mongo");
+const productDB = require("../cart/shop.mongo");
 const shopData = require("./shop-data");
 
 async function addProductsIntoDb() {
@@ -8,7 +8,7 @@ async function addProductsIntoDb() {
 }
 
 async function getAllProducts(){
- const products =  await productDB.find({},{'_id':0,'__v':0}).sort({id:1})
+ const products =  await productDB.find({}).sort("quantity")
  const allProducts = modifyArray(products)
  return allProducts
 }

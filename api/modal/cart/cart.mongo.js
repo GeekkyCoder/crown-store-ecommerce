@@ -2,8 +2,7 @@ const mongoose = require("mongoose")
 
 const cartSchema = new mongoose.Schema({
     id:{
-        type:Number,
-        required:false
+        type:Number
     },
     name:{
         type:String,
@@ -18,9 +17,13 @@ const cartSchema = new mongoose.Schema({
         required:true
     },
     quantity:{
-        type:Number,
-        required:false
+        type:Number
+    },
+    createdBy:{
+        type:mongoose.Types.ObjectId,
+        ref:'user',
+        required:[true,'plz provide user']
     }
-})
+},{timestamps:true})
 
 module.exports = mongoose.model("cart",cartSchema)

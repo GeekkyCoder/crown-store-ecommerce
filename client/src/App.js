@@ -18,11 +18,6 @@ import {
 
 import { cartCountSelector } from "./store/cart/cartSelector";
 
-import {
-  createUserWithDocument,
-  onAuthUserStateChange,
-} from "./utils/firebase/firebase.utils";
-import { FETCH_USER_SUCCESS } from "./store/user/user.actions";
 import { currentUserSelector } from "./store/user/user.selector";
 
 function App() {
@@ -47,7 +42,11 @@ function App() {
     const fetchCartData = async () => {
       dispatch(SET_CART_ITEMS_START());
       try {
-        const data = await axios.get("http://localhost:8000/cart");
+        const data = await axios.get("http://localhost:8000/cart",{
+          headers:{
+            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyYzdlYmM2MjQzZGMxMzlkMzUwYWYiLCJ1c2VybmFtZSI6InNoZXJheiBhaG1lZCIsImlhdCI6MTY4MTA1NTkwNywiZXhwIjoxNjgzNjQ3OTA3fQ.yvLjv8bmtgv13ddD6ZnAz7VfMqOSVi42p5OqBTN5798`
+          }
+        });
         const cartItems = data.data;
         dispatch(SET_CART_ITEMS_SUCCESS(cartItems));
       } catch (err) {
@@ -58,13 +57,8 @@ function App() {
   }, [cartCount]);
 
   useEffect(() => {
-    const unsub = onAuthUserStateChange(async (user) => {
-      if (user) {
-        await createUserWithDocument(user);
-      }
-      dispatch(FETCH_USER_SUCCESS(user));
-    });
-    return unsub;
+    localStorage.getItem("token")
+
   }, []);
 
   return (

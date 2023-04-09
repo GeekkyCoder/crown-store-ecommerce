@@ -1,11 +1,8 @@
 import { useFormik } from "formik";
 import { signUpSchema } from "../../FormSchema/FormSchema";
-import {
-  createUserWithDocument,
-  createUserAuthWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
 import { Link } from "react-router-dom";
 import crownIcon from "../../Assets/crown.svg";
+import axios from "axios"
 
 const SignUp = () => {
   const formik = useFormik({
@@ -18,11 +15,13 @@ const SignUp = () => {
     validationSchema: signUpSchema,
     onSubmit: async (values, action) => {
       try {
-        const { user } = await createUserAuthWithEmailAndPassword(
-          values.email,
-          values.password
-        );
-        await createUserWithDocument(user, { displayName: values.displayName });
+       const {data} = await axios.post("http://localhost:8000/auth/register", {
+        username:values.displayName,
+        email:values.email,
+        password:values.password,
+        confirmPassword:values.confirmPassword,
+       })
+       console.log(data)
       } catch (err) {
         console.log(`error: ${err}`);
       }
