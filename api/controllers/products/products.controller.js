@@ -1,5 +1,4 @@
-const {getAllProducts} = require("../modal/shop.modal")
-
+const { getAllProducts } = require("../../modal/shop/shop.modal")
 
 async function getHttpAllProducts(req,res){
     const products = await getAllProducts()

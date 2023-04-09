@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { isLoadingSelector } from "../../store/catogories/catogoriesSelector";
 import {
-  ADD_ITEM_INTO_CART,
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
 } from "../../store/cart/cart.actions";
@@ -25,6 +23,10 @@ const ProductCard = ({ product }) => {
           name: productToAdd.name,
           imageUrl: productToAdd.imageUrl,
           price: productToAdd.price,
+        },{
+          headers:{
+            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyYzdlYmM2MjQzZGMxMzlkMzUwYWYiLCJ1c2VybmFtZSI6InNoZXJheiBhaG1lZCIsImlhdCI6MTY4MTA1NTkwNywiZXhwIjoxNjgzNjQ3OTA3fQ.yvLjv8bmtgv13ddD6ZnAz7VfMqOSVi42p5OqBTN5798`
+          }
         });
         toast.success("product added successfully", {
           position: "top-center",
@@ -36,7 +38,8 @@ const ProductCard = ({ product }) => {
           progress: undefined,
           theme: "colored",
         });
-        dispatch(ADD_ITEM_INTO_CART(cartItem.data));
+        console.log(cartItem.data)
+        // dispatch(ADD_ITEM_INTO_CART(cartItem.data));
         dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1));
       } catch (err) {
         SET_CART_ITEMS_FAILED(err)

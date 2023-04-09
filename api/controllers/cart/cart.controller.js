@@ -1,30 +1,28 @@
-const cartsDB = require("../modal/cart.mongo");
+const cartsDB = require("../../modal/cart/cart.mongo");
 
 const {
   productExistWithId,
   addToCart,
   getLatestCartId,
   updateItemInCart,
-  getAllCartItems,
-} = require("../modal/cart.modal");
+  // getAllCartItems,
+} = require("../../modal/cart/cart.modal");
+const { StatusCodes } = require("http-status-codes");
 
 async function getAllItems(req, res) {
-  try {
-    const allItems = await getAllCartItems();
-    return res.status(200).json(allItems);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
+    const items = await cartsDB.find({createdBy:req.user.userId})
+    return res.status(StatusCodes.OK).json(items);
 }
 
 async function addNewItemToCart(req, res) {
-  const product = req.body;
+   const {name,imageUrl,price,id} = req.body; 
+   const createdBy = req.user.userId
 
-  if (!product.name || !product.imageUrl || !product.price) {
+  if (!name || !imageUrl || !price) {
     return res.status(400).json("plz add a product first");
   }
 
-  const cartItemExist = await cartsDB.findOne({ id: product.id });
+  const cartItemExist = await cartsDB.findOne({ id });
 
   if (cartItemExist) {
     const updatedCartDBElement = await cartsDB.findOneAndUpdate(
@@ -34,6 +32,13 @@ async function addNewItemToCart(req, res) {
     return res.status(200).json(updatedCartDBElement);
   } else {
     // add the item into the cart db
+    const product = {
+      id,
+      name,
+      imageUrl,
+      price,
+      createdBy
+    }
     const item = await addToCart(product);
     return res.status(201).json(item);
   }

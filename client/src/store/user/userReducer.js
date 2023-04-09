@@ -15,6 +15,7 @@ const userReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: true,
       };
     case USER_ACTION_TYPES.SET_USER_SUCCESS:
+      localStorage.setItem('token',payload.token)
       return {
         ...state,
         isLoading: false,

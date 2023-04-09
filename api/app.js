@@ -1,31 +1,43 @@
-const express = require("express")
-const cors = require("cors")
-const cookieParser = require("cookie-parser")
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+require("express-async-errors");
 
-require("dotenv").config()
+require("dotenv").config();
 
-const productsRouter = require("./controllers/products.router")
-const cartRouter = require("./controllers/cart.router")
+const userRouter = require("./controllers/user/user.router");
+const productsRouter = require("./controllers/products/products.router");
+const cartRouter = require("./controllers/cart/cart.router");
 
+const notFoundMiddleware = require("./middlwares/not-found");
+const errorHandlerMiddleware = require("./middlwares/error-handler");
 
-const app = express()
+const authMiddleware = require("./middlwares/authMiddleware")
 
-app.use(express.json())
+const app = express();
 
-app.use(cors({
-    origin:"http://localhost:3000"
-}))
+app.use(express.json());
 
-app.use(cookieParser())
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
+app.use(cookieParser());
 
-app.use((req,res,next) => {
-    next()
-    console.log(`${req.method}${req.url}`)
-})
+app.use((req, res, next) => {
+  next();
+  console.log(`${req.method}${req.url}`);
+});
 
-app.use("/products",productsRouter)
-app.use("/cart",cartRouter)
+app.use("/auth", userRouter);
+app.use("/products", productsRouter);
 
+app.use(authMiddleware)
+app.use("/cart", cartRouter);
 
-module.exports = app
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
+
+module.exports = app;

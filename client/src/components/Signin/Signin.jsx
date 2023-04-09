@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema } from "../../FormSchema/FormSchema";
 import { FETCH_USER_SUCCESS } from "../../store/user/user.actions";
-import { signInUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import crownIcon from "../../Assets/crown.svg";
+import axios from "axios";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -17,10 +17,11 @@ const Signin = () => {
     validationSchema: loginSchema,
     onSubmit: async (values, action) => {
       try {
-        const { user } = await signInUserWithEmailAndPassword(
-          values.email,
-          values.password
-        );
+         const {data} = await axios.post('http://localhost:8000/auth/login',{
+           email:values.email,
+           password:values.password
+         })
+         const user = data
         dispatch(FETCH_USER_SUCCESS(user));
         navigate("/shop");
       } catch (err) {
