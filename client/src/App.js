@@ -44,7 +44,7 @@ function App() {
       try {
         const data = await axios.get("http://localhost:8000/cart",{
           headers:{
-            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyODNlOWM5MjA4YTA4M2M2MTJiZTciLCJ1c2VybmFtZSI6ImZpYXogYWhtZWQiLCJpYXQiOjE2ODEwNjI3MjksImV4cCI6MTY4MzY1NDcyOX0.Uzm7ErLz6GGjXpwmERJIWuwK7yyY_bG_eGMKh0PyCWs`
+            Authorization:`Bearer ${currentUser.token}`
           }
         });
         const cartItems = data.data;
@@ -54,7 +54,7 @@ function App() {
       }
     };
     fetchCartData();
-  }, [cartCount]);
+  }, [cartCount,currentUser]);
 
   useEffect(() => {
     localStorage.getItem("token")

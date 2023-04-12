@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
   const addToCart = useCallback(
     async (productToAdd) => {
       try {
-        const cartItem = await axios.post("http://localhost:8000/cart", {
+        const cartItem = await axios.post(`http://localhost:8000/cart`, {
           id: productToAdd.id,
           name: productToAdd.name,
           imageUrl: productToAdd.imageUrl,

@@ -54,7 +54,7 @@ const Cart = () => {
         dispatch(SET_CART_ITEMS_FAILED(err));
       }
     },
-    [cartData]
+    [cartData,currentUser]
   );
 
   const updateCartQuantityBy1 = useCallback(
@@ -86,7 +86,7 @@ const Cart = () => {
         console.log(err);
       }
     },
-    [cartData]
+    [cartData,currentUser]
   );
 
   const removeCartQuantityBy1 = useCallback(
@@ -118,7 +118,7 @@ const Cart = () => {
         dispatch(SET_CART_ITEMS_FAILED(err));
       }
     },
-    [cartData]
+    [cartData,currentUser]
   );
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const Cart = () => {
       return price;
     }, 0);
     dispatch(SET_CART_TOTAL_PRICE(newPrice));
-  }, [cartData]);
+  }, [cartData,currentUser]);
 
   return (
     <>

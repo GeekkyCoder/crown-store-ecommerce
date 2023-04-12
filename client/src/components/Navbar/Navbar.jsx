@@ -80,7 +80,7 @@ const Navbar = () => {
                         className="flex flex-col text-gray-500"
                         key={cartItem.id}
                       >
-                       {currentUser && <CartMenu item={cartItem} />}
+                       <CartMenu item={cartItem} />
                       </div>
                     );
                   })}

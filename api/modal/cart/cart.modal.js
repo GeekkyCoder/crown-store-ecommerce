@@ -22,13 +22,14 @@ async function getLatestCartId() {
   return latestProduct.id;
 }
 
-async function updateItemInCart(productToUpdate, payloadProduct) {
+async function updateItemInCart(productToUpdate, quantity, createdBy) {
   const updatedItem = await cartsDB.findOneAndUpdate(
     {
       id: productToUpdate.id,
+      createdBy,
     },
     {
-      quantity: payloadProduct.quantity,
+      quantity,
     },
     {
       upsert: true,
@@ -39,8 +40,8 @@ async function updateItemInCart(productToUpdate, payloadProduct) {
 }
 
 async function getAllCartItems(userId) {
-  console.log("sahi hae")
-  return await cartsDB.find({ createdBy: userId })
+  console.log("sahi hae");
+  return await cartsDB.find({ createdBy: userId });
 }
 
 module.exports = {
