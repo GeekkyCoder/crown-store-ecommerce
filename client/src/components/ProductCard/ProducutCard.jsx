@@ -7,12 +7,16 @@ import {
 import { cartCountSelector, getCartItems } from "../../store/cart/cartSelector";
 import { Fragment, useCallback } from "react";
 import { toast } from "react-toastify";
+import { currentUserSelector } from "../../store/user/user.selector";
 
 const ProductCard = ({ product }) => {
   const cartData = useSelector(getCartItems);
+  const currentUser = useSelector(currentUserSelector)
   const cartCount = useSelector(cartCountSelector);
   const { id, name, imageUrl, price } = product;
   const dispatch = useDispatch();
+
+  // console.log(currentUser)
 
 
   const addToCart = useCallback(
@@ -25,7 +29,7 @@ const ProductCard = ({ product }) => {
           price: productToAdd.price,
         },{
           headers:{
-            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyODNlOWM5MjA4YTA4M2M2MTJiZTciLCJ1c2VybmFtZSI6ImZpYXogYWhtZWQiLCJpYXQiOjE2ODEwNjI3MjksImV4cCI6MTY4MzY1NDcyOX0.Uzm7ErLz6GGjXpwmERJIWuwK7yyY_bG_eGMKh0PyCWs`
+            Authorization:`Bearer ${currentUser.token}`
           }
         });
         toast.success("product added successfully", {

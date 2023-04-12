@@ -26,11 +26,13 @@ import {
   cartTotalPriceSelector,
 } from "../../store/cart/cartSelector";
 import Loader from "../Loader/Loader";
+import { currentUserSelector } from "../../store/user/user.selector";
 
 const Cart = () => {
   const cartData = useSelector(getCartItems);
   const cartCount = useSelector(cartCountSelector);
   const isCartLoading = useSelector(cartLoadingSelector);
+  const currentUser = useSelector(currentUserSelector);
   const cartPrice = useSelector(cartTotalPriceSelector);
   const dispatch = useDispatch();
 
@@ -39,7 +41,11 @@ const Cart = () => {
       try {
         const cartItemToDelete = await axios.delete(
           `http://localhost:8000/cart/${id}`
-        );
+        ,{
+          headers:{
+            Authorization:`Bearer ${currentUser.token}`
+          }
+        });
         const newCartItems = cartData.filter(
           (cartItem) => cartItem.id !== cartItemToDelete.data.id
         );
@@ -67,6 +73,11 @@ const Cart = () => {
           `http://localhost:8000/cart/${product.id}`,
           {
             quantity: product.quantity,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));
@@ -94,6 +105,11 @@ const Cart = () => {
           `http://localhost:8000/cart/${product.id}`,
           {
             quantity: product.quantity,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${currentUser.token}`,
+            },
           }
         );
         dispatch(ADD_ITEM_INTO_CART(updatedCartItem));

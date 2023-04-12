@@ -15,8 +15,6 @@ const Shop = () => {
   const isLoading = useSelector(isLoadingSelector);
   const currentUser = useSelector(currentUserSelector)
 
-  console.log(currentUser)
-
   const catogoriesJSX = useMemo(() => {
     return (
       <>
