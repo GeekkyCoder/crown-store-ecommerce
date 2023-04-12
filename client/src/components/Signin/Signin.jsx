@@ -21,8 +21,7 @@ const Signin = () => {
            email:values.email,
            password:values.password
          })
-         const user = data
-        dispatch(FETCH_USER_SUCCESS(user));
+        dispatch(FETCH_USER_SUCCESS(data));
         navigate("/shop");
       } catch (err) {
         switch (err.code) {

@@ -1,7 +1,7 @@
 const USER_ACTION_TYPES = require("./user.actionTypes");
 
 const INITIAL_STATE = {
-  currentUser: null,
+  currentUser: null || JSON.parse(localStorage.getItem("user")),
   isLoading: false,
   error: null,
 };
@@ -15,7 +15,7 @@ const userReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: true,
       };
     case USER_ACTION_TYPES.SET_USER_SUCCESS:
-      localStorage.setItem('token',payload.token)
+      localStorage.setItem("user",JSON.stringify(payload))
       return {
         ...state,
         isLoading: false,
@@ -32,4 +32,4 @@ const userReducer = (state = INITIAL_STATE, action = {}) => {
   }
 };
 
-module.exports = userReducer;
+export default userReducer;

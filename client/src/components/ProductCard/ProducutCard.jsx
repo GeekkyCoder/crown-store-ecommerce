@@ -25,7 +25,7 @@ const ProductCard = ({ product }) => {
           price: productToAdd.price,
         },{
           headers:{
-            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyYzdlYmM2MjQzZGMxMzlkMzUwYWYiLCJ1c2VybmFtZSI6InNoZXJheiBhaG1lZCIsImlhdCI6MTY4MTA1NTkwNywiZXhwIjoxNjgzNjQ3OTA3fQ.yvLjv8bmtgv13ddD6ZnAz7VfMqOSVi42p5OqBTN5798`
+            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyODNlOWM5MjA4YTA4M2M2MTJiZTciLCJ1c2VybmFtZSI6ImZpYXogYWhtZWQiLCJpYXQiOjE2ODEwNjI3MjksImV4cCI6MTY4MzY1NDcyOX0.Uzm7ErLz6GGjXpwmERJIWuwK7yyY_bG_eGMKh0PyCWs`
           }
         });
         toast.success("product added successfully", {
