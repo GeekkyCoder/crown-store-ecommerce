@@ -15,7 +15,7 @@ const userReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: true,
       };
     case USER_ACTION_TYPES.SET_USER_SUCCESS:
-      localStorage.setItem("user",JSON.stringify(payload))
+      localStorage.setItem("user", JSON.stringify(payload));
       return {
         ...state,
         isLoading: false,
@@ -26,6 +26,12 @@ const userReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: false,
         error: payload,
+      };
+    case USER_ACTION_TYPES.SET_USER_LOGOUT:
+      localStorage.clear();
+      return {
+        ...state,
+        currentUser: null,
       };
     default:
       return state;
