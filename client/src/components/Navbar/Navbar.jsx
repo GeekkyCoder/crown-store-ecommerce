@@ -57,7 +57,7 @@ const Navbar = () => {
           <img src={Logo} alt="logo" />
         </Link>
 
-        <div className="ml-auto flex gap-10 items-center">
+        <div className="ml-auto text-sm md:text-xl flex gap-5 md:gap-10 items-center">
           <Link to={"/shop"} className="text-gray-500 hover:text-black">
             Shop
           </Link>
