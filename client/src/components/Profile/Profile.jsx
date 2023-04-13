@@ -11,6 +11,7 @@ import { currentUserSelector } from "../../store/user/user.selector";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { SET_USER_LOGOUT } from "../../store/user/user.actions";
 
 const AccountMenu = () => {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ const AccountMenu = () => {
   }
 
   const handleSignOut = async () => {
+    dispatch(SET_USER_LOGOUT())
     setAnchorEl(null);
     toast.success("logged out successfully", {
         position: "top-right",

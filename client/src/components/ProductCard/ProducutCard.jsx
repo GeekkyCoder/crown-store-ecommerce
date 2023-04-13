@@ -7,25 +7,29 @@ import {
 import { cartCountSelector, getCartItems } from "../../store/cart/cartSelector";
 import { Fragment, useCallback } from "react";
 import { toast } from "react-toastify";
+import { currentUserSelector } from "../../store/user/user.selector";
 
 const ProductCard = ({ product }) => {
   const cartData = useSelector(getCartItems);
+  const currentUser = useSelector(currentUserSelector)
   const cartCount = useSelector(cartCountSelector);
   const { id, name, imageUrl, price } = product;
   const dispatch = useDispatch();
+
+  // console.log(currentUser)
 
 
   const addToCart = useCallback(
     async (productToAdd) => {
       try {
-        const cartItem = await axios.post("http://localhost:8000/cart", {
+        const cartItem = await axios.post(`http://localhost:8000/cart`, {
           id: productToAdd.id,
           name: productToAdd.name,
           imageUrl: productToAdd.imageUrl,
           price: productToAdd.price,
         },{
           headers:{
-            Authorization:`Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDMyYzdlYmM2MjQzZGMxMzlkMzUwYWYiLCJ1c2VybmFtZSI6InNoZXJheiBhaG1lZCIsImlhdCI6MTY4MTA1NTkwNywiZXhwIjoxNjgzNjQ3OTA3fQ.yvLjv8bmtgv13ddD6ZnAz7VfMqOSVi42p5OqBTN5798`
+            Authorization:`Bearer ${currentUser.token}`
           }
         });
         toast.success("product added successfully", {

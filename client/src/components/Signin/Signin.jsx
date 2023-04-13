@@ -21,8 +21,7 @@ const Signin = () => {
            email:values.email,
            password:values.password
          })
-         const user = data
-        dispatch(FETCH_USER_SUCCESS(user));
+        dispatch(FETCH_USER_SUCCESS(data));
         navigate("/shop");
       } catch (err) {
         switch (err.code) {
@@ -42,15 +41,15 @@ const Signin = () => {
 
   return (
     <>
-      <div className="flex font-sans flex-col mt-12 w-[35%] justify-between items-center mx-auto border-2 border-gray-500 p-4 shadow-lg rounded-md">
+      <div className="flex font-sans flex-col  w-[90%] md:w-[35%] justify-between items-center mx-auto border-2 border-gray-200 p-4 shadow-lg rounded-sm mt-10 text-sm">
         <div className="logo">
           <img src={crownIcon} alt="crown-logo" />
         </div>
-        <h1 className="font-sans  font-bold uppercase text-2xl tracking-wide leading-3 my-10">
+        <h1 className="font-sans  font-bold uppercase text-xs md:text-2xl tracking-wide leading-3 my-10">
           Sign in to your account
         </h1>
         <form
-          className="flex w-full flex-col items-center "
+          className="flex  w-full flex-col items-center "
           onSubmit={formik.handleSubmit}
         >
           <input
@@ -64,7 +63,7 @@ const Signin = () => {
             value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email ? (
-            <div className="text-red-500">{formik.errors.email}</div>
+            <div className="text-red-700 uppercase font-bold">{formik.errors.email}</div>
           ) : null}
 
           <input
@@ -78,19 +77,19 @@ const Signin = () => {
             value={formik.values.password}
           />
           {formik.touched.password && formik.errors.password ? (
-            <div className="text-red-500">{formik.errors.password}</div>
+            <div className="text-red-700 uppercase font-bold">{formik.errors.password}</div>
           ) : null}
-          <p className="font-sans  mt-5 font-bold text-gray-800">
+          <p className="font-sans  mt-5 font-bold text-gray-800 uppercase">
             dont have an account ?
             <Link
-              className="ml-2 text-orange-500 hover:text-gray-700"
+              className="ml-2 text-orange-500 hover:text-gray-700 "
               to="/auth"
             >
               sign up
             </Link>
           </p>
           <button
-            className="bg-black mt-5 text-white border-2 border-gray-400 hover:bg-white hover:text-black p-2 rounded-md font-sans uppercase font-bold w-[50%] transition-colors  ease-in duration-75 "
+            className="bg-black mt-5 text-white border-2 border-gray-400 hover:bg-white hover:text-black p-2 rounded-md font-sans uppercase font-bold w-[80%] md:w-[50%] transition-colors  ease-in duration-75 "
             type="submit"
           >
             sign in

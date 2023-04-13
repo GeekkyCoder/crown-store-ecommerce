@@ -14,7 +14,6 @@ import {createSelector} from "reselect"
 export const getCatogories = createSelector(
     [selectCatogories],
     (catogories) => {
-        console.log("selector fired")
         return catogories
     }
 )

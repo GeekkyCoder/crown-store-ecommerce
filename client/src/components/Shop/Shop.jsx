@@ -15,8 +15,6 @@ const Shop = () => {
   const isLoading = useSelector(isLoadingSelector);
   const currentUser = useSelector(currentUserSelector)
 
-  console.log(currentUser)
-
   const catogoriesJSX = useMemo(() => {
     return (
       <>
@@ -28,7 +26,7 @@ const Shop = () => {
               <div className="text-center uppercase font-bold text-4xl my-20">
                 {title}
               </div>
-              <div className="grid grid-cols-3 max-w-[95%] mt-10 mx-auto gap-20 place-items-center">
+              <div className="grid grid-col-1  md:grid-cols-3 w-[90%] md:max-w-[95%] mt-10 mx-auto gap-10 md:gap-20 place-items-center">
                 {catogoriesData[title].slice(0, 6).map((product) => {
                   return <ProductCard key={product.name} product={product} />;
                 })}

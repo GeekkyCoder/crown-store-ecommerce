@@ -10,13 +10,17 @@ const {
 const { StatusCodes } = require("http-status-codes");
 
 async function getAllItems(req, res) {
-    const items = await cartsDB.find({createdBy:req.user.userId})
-    return res.status(StatusCodes.OK).json(items);
+  // console.log(req.user.username)
+  // console.log(req.user.userId)
+  const items = await cartsDB.find({ createdBy: req.user.userId });
+  return res.status(StatusCodes.OK).json(items);
 }
 
 async function addNewItemToCart(req, res) {
-   const {name,imageUrl,price,id} = req.body; 
-   const createdBy = req.user.userId
+  const { name, imageUrl, price, id } = req.body;
+  const createdBy = req.user.userId;
+
+  //  console.log(req.user.username)
 
   if (!name || !imageUrl || !price) {
     return res.status(400).json("plz add a product first");
@@ -24,9 +28,11 @@ async function addNewItemToCart(req, res) {
 
   const cartItemExist = await cartsDB.findOne({ id });
 
+  // console.log(cartItemExist)
+
   if (cartItemExist) {
     const updatedCartDBElement = await cartsDB.findOneAndUpdate(
-      { id: cartItemExist.id },
+      { id: cartItemExist.id, createdBy: req.user.userId },
       { quantity: cartItemExist.quantity + 1 }
     );
     return res.status(200).json(updatedCartDBElement);
@@ -37,8 +43,8 @@ async function addNewItemToCart(req, res) {
       name,
       imageUrl,
       price,
-      createdBy
-    }
+      createdBy,
+    };
     const item = await addToCart(product);
     return res.status(201).json(item);
   }
@@ -46,32 +52,38 @@ async function addNewItemToCart(req, res) {
 
 async function updateCartItem(req, res) {
   const productId = req.params.id;
-  const product = req.body;
+  const { quantity } = req.body;
+  const createdBy = req.user.userId;
 
-  if (!product.quantity)
-    return res.status(400).status("quantity required");
+  if (!quantity) return res.status(400).status("quantity required");
 
   const productExist = await productExistWithId(productId);
 
   if (!productExist) return res.status(400).json("no such item ");
 
-  const updatedCartItem = await updateItemInCart(productExist, product);
+  const updatedCartItem = await updateItemInCart(
+    productExist,
+    quantity,
+    createdBy
+  );
 
   return res.status(200).json(updatedCartItem);
 }
 
-
-
 async function removeItem(req, res) {
   const itemId = req.params.id;
-  try {
-    const itemExist = await productExistWithId(itemId);
-    if (!itemExist) return res.status(500).json("item does not exist");
-    const deletedItem = await cartsDB.findOneAndDelete({ id: itemExist.id });
-    return res.status(200).json(deletedItem);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
+  const createdBy = req.user.userId;
+
+  const itemExist = await productExistWithId(itemId);
+
+  if (!itemExist) return res.status(500).json("item does not exist");
+  
+  const deletedItem = await cartsDB.findOneAndDelete({
+    id: itemExist.id,
+    createdBy,
+  });
+
+  return res.status(200).json(deletedItem);
 }
 
 module.exports = {

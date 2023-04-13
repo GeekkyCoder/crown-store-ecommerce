@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { signUpSchema } from "../../FormSchema/FormSchema";
 import { Link } from "react-router-dom";
 import crownIcon from "../../Assets/crown.svg";
-import axios from "axios"
+import axios from "axios";
 
 const SignUp = () => {
   const formik = useFormik({
@@ -15,13 +15,16 @@ const SignUp = () => {
     validationSchema: signUpSchema,
     onSubmit: async (values, action) => {
       try {
-       const {data} = await axios.post("http://localhost:8000/auth/register", {
-        username:values.displayName,
-        email:values.email,
-        password:values.password,
-        confirmPassword:values.confirmPassword,
-       })
-       console.log(data)
+        const { data } = await axios.post(
+          "http://localhost:8000/auth/register",
+          {
+            username: values.displayName,
+            email: values.email,
+            password: values.password,
+            confirmPassword: values.confirmPassword,
+          }
+        );
+        console.log(data);
       } catch (err) {
         console.log(`error: ${err}`);
       }
@@ -31,18 +34,18 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="flex  font-sans flex-col mt-12 w-[35%] justify-between items-center mx-auto border-2 border-gray-500 p-2 shadow-lg rounded-md ">
+      <div className="flex  font-sans flex-col mt-12 w-[90%] md:w-[35%] justify-between items-center mx-auto border-2 border-gray-500 p-2 shadow-lg rounded-md text-sm font-bold uppercase ">
         <form
-          className="flex w-full flex-col items-center"
+          className="flex w-full flex-col items-center mt-10"
           onSubmit={formik.handleSubmit}
         >
-          <div className="">
+          <div className="my-5">
             <img src={crownIcon} alt="crown-logo" />
           </div>
           <h1 className="font-sans  font-bold uppercase text-xl tracking-wide leading-3 my-5">
             Dont have an account ?
           </h1>
-          <p className="uppercase text-gray-500 font-bold text-xl mb-5">
+          <p className="uppercase text-orange-500 font-bold text-xl mb-5">
             sign up
           </p>
           <input
@@ -57,7 +60,9 @@ const SignUp = () => {
           />
           <p>
             {formik.touched.displayName && formik.errors.displayName ? (
-              <div className="text-red-500">{formik.errors.displayName}</div>
+              <div className="text-red-700 uppercase">
+                {formik.errors.displayName}
+              </div>
             ) : null}
           </p>
 
@@ -73,7 +78,9 @@ const SignUp = () => {
           />
           <p className="ml-10">
             {formik.touched.email && formik.errors.email ? (
-              <div className="text-red-500">{formik.errors.email}</div>
+              <div className="text-red-700 uppercase ">
+                {formik.errors.email}
+              </div>
             ) : null}
           </p>
           <input
@@ -88,7 +95,9 @@ const SignUp = () => {
           />
           <p>
             {formik.touched.password && formik.errors.password ? (
-              <div className="text-red-500">{formik.errors.password}</div>
+              <div className="text-red-700 uppercase">
+                {formik.errors.password}
+              </div>
             ) : null}
           </p>
 
@@ -103,7 +112,9 @@ const SignUp = () => {
             placeholder="confirm password"
           />
           {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-            <div className="text-red-500">{formik.errors.confirmPassword}</div>
+            <div className="text-red-700 uppercase">
+              {formik.errors.confirmPassword}
+            </div>
           ) : null}
 
           <p className="font-sans  mt-5 font-bold text-gray-800">

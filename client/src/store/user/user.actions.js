@@ -13,10 +13,15 @@ const FETCH_USER_FAILED = (err) => {
     return {type:USER_ACTION_TYPES.SET_USER_FAILED,payload:err}
 }
 
+const SET_USER_LOGOUT = () => {
+  return {type:USER_ACTION_TYPES.SET_USER_LOGOUT}   
+}
+
 
 
 module.exports = {
     FETCH_USER_START,
     FETCH_USER_SUCCESS,
-    FETCH_USER_FAILED
+    FETCH_USER_FAILED,
+    SET_USER_LOGOUT
 }

@@ -18,7 +18,6 @@ const selectCart = createSelector(
 export const getCartItems = createSelector(
     [selectCart],
     (cartItems) => {
-      console.log("cart selector fired")
       return cartItems
     }
 )
