@@ -1,11 +1,30 @@
-import { useSelector } from "react-redux";
-
-import { getCartItems } from "../../store/cart/cartSelector";
+import { useEffect } from "react";
 
 import Card from "../Card/Card";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  getCartItems,
+  cartTotalPriceSelector,
+} from "../../store/cart/cartSelector";
+import { currentUserSelector } from "../../store/user/user.selector";
+import { SET_CART_TOTAL_PRICE } from "../../store/cart/cart.actions";
+
 const Cart = () => {
   const cartData = useSelector(getCartItems);
+  const currentUser = useSelector(currentUserSelector);
+  const cartPrice = useSelector(cartTotalPriceSelector);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const newPrice = cartData.reduce((acc, item) => {
+      const price = Number(item.price) * item.quantity + acc;
+      return price;
+    }, 0);
+    dispatch(SET_CART_TOTAL_PRICE(newPrice));
+  }, [cartData, currentUser]);
 
   return (
     <>
@@ -26,6 +45,9 @@ const Cart = () => {
               />
             );
           })}
+          <div className="flex justify-end ml-auto  uppercase text-2xl font-bold mt-20">
+            Your Sub Total : ${cartPrice}
+          </div>
         </div>
       ) : (
         <div className="flex justify-center items-center h-screen uppercase font-sans text-4xl font-bold">

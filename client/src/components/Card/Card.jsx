@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -8,14 +8,12 @@ import {
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
   SET_CART_ITEMS_SUCCESS,
-  SET_CART_TOTAL_PRICE,
 } from "../../store/cart/cart.actions";
 
 import {
   getCartItems,
   cartCountSelector,
   cartLoadingSelector,
-  cartTotalPriceSelector,
 } from "../../store/cart/cartSelector";
 import Loader from "../Loader/Loader";
 import { currentUserSelector } from "../../store/user/user.selector";
@@ -25,7 +23,6 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
   const cartCount = useSelector(cartCountSelector);
   const isCartLoading = useSelector(cartLoadingSelector);
   const currentUser = useSelector(currentUserSelector);
-  const cartPrice = useSelector(cartTotalPriceSelector);
   const cartData = useSelector(getCartItems);
   const dispatch = useDispatch();
 
@@ -115,13 +112,6 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
     [cartData, currentUser]
   );
 
-  useEffect(() => {
-    const newPrice = cartData.reduce((acc, item) => {
-      const price = Number(item.price) * item.quantity + acc;
-      return price;
-    }, 0);
-    dispatch(SET_CART_TOTAL_PRICE(newPrice));
-  }, [cartData, currentUser]);
 
   return (
     <>
