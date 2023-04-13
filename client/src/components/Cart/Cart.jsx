@@ -24,7 +24,7 @@ const Cart = () => {
       return price;
     }, 0);
     dispatch(SET_CART_TOTAL_PRICE(newPrice));
-  }, [cartData, currentUser]);
+  }, [cartData]);
 
   return (
     <>
