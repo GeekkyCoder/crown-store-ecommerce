@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginSchema } from "../../FormSchema/FormSchema";
+import { loginSchema } from "../Stripe-Payment/FormSchema/FormSchema";
 import { FETCH_USER_SUCCESS } from "../../store/user/user.actions";
 import crownIcon from "../../Assets/crown.svg";
 import axios from "axios";

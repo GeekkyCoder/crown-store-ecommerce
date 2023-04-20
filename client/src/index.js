@@ -1,20 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import './index.css';
+import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {Provider} from "react-redux"
+import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "react-toastify/dist/ReactToastify.css";
+import { stripeLoadPromise } from "./utils/stripe";
+import { Elements } from "@stripe/react-stripe-js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+      <Provider store={store}>
+        <Elements stripe={stripeLoadPromise}>
+          <App />
+        </Elements>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );

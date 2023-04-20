@@ -10,6 +10,7 @@ import {
 } from "../../store/cart/cartSelector";
 import { currentUserSelector } from "../../store/user/user.selector";
 import { SET_CART_TOTAL_PRICE } from "../../store/cart/cart.actions";
+import StripePayment from "../Stripe-Payment/StripePayment";
 
 const Cart = () => {
   const cartData = useSelector(getCartItems);
@@ -24,7 +25,7 @@ const Cart = () => {
       return price;
     }, 0);
     dispatch(SET_CART_TOTAL_PRICE(newPrice));
-  }, [cartData, currentUser]);
+  }, [cartData]);
 
   return (
     <>
@@ -54,6 +55,7 @@ const Cart = () => {
           No item to show
         </div>
       )}
+      <StripePayment/>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { signUpSchema } from "../../FormSchema/FormSchema";
+import { signUpSchema } from "../Stripe-Payment/FormSchema/FormSchema";
 import { Link } from "react-router-dom";
 import crownIcon from "../../Assets/crown.svg";
 import axios from "axios";

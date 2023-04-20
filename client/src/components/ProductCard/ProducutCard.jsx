@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
+  ADD_ITEM_INTO_CART,
   CART_INCREMENT_CART_COUNT,
   SET_CART_ITEMS_FAILED,
 } from "../../store/cart/cart.actions";
@@ -42,8 +43,7 @@ const ProductCard = ({ product }) => {
           progress: undefined,
           theme: "colored",
         });
-        console.log(cartItem.data)
-        // dispatch(ADD_ITEM_INTO_CART(cartItem.data));
+        dispatch(ADD_ITEM_INTO_CART(cartItem.data));
         dispatch(CART_INCREMENT_CART_COUNT(cartCount + 1));
       } catch (err) {
         SET_CART_ITEMS_FAILED(err)

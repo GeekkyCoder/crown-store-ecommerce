@@ -26,7 +26,7 @@ async function addNewItemToCart(req, res) {
     return res.status(400).json("plz add a product first");
   }
 
-  const cartItemExist = await cartsDB.findOne({ id });
+  const cartItemExist = await cartsDB.findOne({ id,createdBy:req.user.userId });
 
   // console.log(cartItemExist)
 

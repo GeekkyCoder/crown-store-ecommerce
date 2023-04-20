@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SET_USER_LOGOUT } from "../../store/user/user.actions";
+import { SET_CART_ITEMS_SUCCESS } from "../../store/cart/cart.actions";
 
 const AccountMenu = () => {
   const dispatch = useDispatch()
@@ -43,6 +44,7 @@ const AccountMenu = () => {
         theme: "light",
       });
     navigate("/")
+    dispatch(SET_CART_ITEMS_SUCCESS([]))
   }
   return (
     <React.Fragment>

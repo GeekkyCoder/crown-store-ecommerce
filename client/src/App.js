@@ -56,11 +56,6 @@ function App() {
     fetchCartData();
   }, [cartCount,currentUser]);
 
-  useEffect(() => {
-    localStorage.getItem("token")
-
-  }, []);
-
   return (
     <div>
       <Home />

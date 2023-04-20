@@ -45,7 +45,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
         dispatch(SET_CART_ITEMS_FAILED(err));
       }
     },
-    [cartData, currentUser]
+    [cartData]
   );
 
   const updateCartQuantityBy1 = useCallback(
@@ -77,7 +77,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
         console.log(err);
       }
     },
-    [cartData, currentUser]
+    [cartData]
   );
 
   const removeCartQuantityBy1 = useCallback(
@@ -109,7 +109,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
         dispatch(SET_CART_ITEMS_FAILED(err));
       }
     },
-    [cartData, currentUser]
+    [cartData]
   );
 
 
