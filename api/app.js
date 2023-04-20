@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 require("express-async-errors");
-const path = require("path")
+const path = require("path");
 
 require("dotenv").config();
 
@@ -13,13 +13,13 @@ const cartRouter = require("./controllers/cart/cart.router");
 const notFoundMiddleware = require("./middlwares/not-found");
 const errorHandlerMiddleware = require("./middlwares/error-handler");
 
-const authMiddleware = require("./middlwares/authMiddleware")
+const authMiddleware = require("./middlwares/authMiddleware");
 
 const app = express();
 
 app.use(express.json());
 
-app.use(express.static(path.resolve(__dirname,"..","./client/build")))
+app.use(express.static(path.resolve(__dirname, "..", "./client/build")));
 
 app.use(
   cors({
@@ -37,13 +37,12 @@ app.use((req, res, next) => {
 app.use("/auth", userRouter);
 app.use("/products", productsRouter);
 
-app.use(authMiddleware)
+app.use(authMiddleware);
 app.use("/cart", cartRouter);
 
-
-app.use("*", (req,res) => {
-   res.sendFile(path.resolve(__dirname,"..", "./client/build","index.html"))
-})
+app.use("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "..", "./client/build", "index.html"));
+});
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
