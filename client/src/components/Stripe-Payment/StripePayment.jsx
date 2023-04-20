@@ -92,11 +92,11 @@ function StripePayment() {
 
   return (
     <div className="my-10 font-sans">
-      <form className="mt-20 w-[500px] mx-auto" onSubmit={paymentHandler}>
-        <h2 className="text-center my-5 text-[2rem] font-bold">
+      <form className="mt-20 w-[300px] md:w-[500px] mx-auto" onSubmit={paymentHandler}>
+        <h2 className="text-center my-5 text-[1.4rem] md:text-[2rem] font-bold">
           Credit-Card Payment
         </h2>
-        <p className="font-bold text-[18px] text-gray-600 font-mono">
+        <p className="font-semibold text-[18px] text-gray-700 font-mono">
           Welcome{" "}
           {currentUser.user.username.charAt(0).toUpperCase() +
             currentUser.user.username.slice(1)}
@@ -105,7 +105,7 @@ function StripePayment() {
             please do not provide your real bank details here
           </span>{" "}
         </p>
-        <p className="text-gray-700 text-center text-[18px] font-mono ">
+        <p className="text-gray-700 my-4 text-center text-[18px] font-mono ">
           Test: 4242 4242 4242 4242
         </p>
         <CardElement className="w-[80%] mx-auto mt-5" />
