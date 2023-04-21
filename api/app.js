@@ -41,13 +41,13 @@ app.use('/stripe', stripeRouter)
 app.use("/auth", userRouter);
 app.use("/products", productsRouter);
 
+// app.use(authMiddleware);
+app.use("/cart", authMiddleware, cartRouter);
+
 app.use("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "..", "./client/build"));
+  res.sendFile(path.resolve(__dirname, "..", "./client/build",'index.html'));
 });
 
-
-app.use(authMiddleware);
-app.use("/cart", cartRouter);
 
 
 app.use(notFoundMiddleware);

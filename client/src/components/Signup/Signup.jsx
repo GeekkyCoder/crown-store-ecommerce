@@ -16,7 +16,7 @@ const SignUp = () => {
     onSubmit: async (values, action) => {
       try {
         const { data } = await axios.post(
-          "http://localhost:8000/auth/register",
+          "/auth/register",
           {
             username: values.displayName,
             email: values.email,

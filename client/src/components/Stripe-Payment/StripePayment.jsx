@@ -21,7 +21,7 @@ function StripePayment() {
     }
 
     const { data } = await axios.post(
-      "http://localhost:8000/stripe/payment",
+      "/stripe/payment",
       {
         amount: totalPrice * 100,
       },

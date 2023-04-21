@@ -30,7 +30,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
     async (id) => {
       try {
         const cartItemToDelete = await axios.delete(
-          `http://localhost:8000/cart/${id}`,
+          `/cart/${id}`,
           {
             headers: {
               Authorization: `Bearer ${currentUser.token}`,
@@ -61,7 +61,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
 
       try {
         const updatedCartItem = await axios.put(
-          `http://localhost:8000/cart/${product.id}`,
+          `/cart/${product.id}`,
           {
             quantity: product.quantity,
           },
@@ -93,7 +93,7 @@ const Card = ({ id, imageUrl, price, name, quantity }) => {
 
       try {
         const updatedCartItem = await axios.put(
-          `http://localhost:8000/cart/${product.id}`,
+          `/cart/${product.id}`,
           {
             quantity: product.quantity,
           },

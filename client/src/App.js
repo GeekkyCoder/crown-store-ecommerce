@@ -29,7 +29,7 @@ function App() {
     const fetchCatogories = async () => {
       dispatch(fetch_catogries_start());
       try {
-        const data = await axios.get("http://localhost:8000/products");
+        const data = await axios.get("/products");
         dispatch(fetch_catogories_success(data.data));
       } catch (err) {
         dispatch(fetch_Catogories_fail(err));
@@ -42,7 +42,7 @@ function App() {
     const fetchCartData = async () => {
       dispatch(SET_CART_ITEMS_START());
       try {
-        const data = await axios.get("http://localhost:8000/cart",{
+        const data = await axios.get("/cart",{
           headers:{
             Authorization:`Bearer ${currentUser.token}`
           }
