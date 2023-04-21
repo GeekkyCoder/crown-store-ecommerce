@@ -17,7 +17,7 @@ const Signin = () => {
     validationSchema: loginSchema,
     onSubmit: async (values, action) => {
       try {
-         const {data} = await axios.post('http://localhost:8000/auth/login',{
+         const {data} = await axios.post('/auth/login',{
            email:values.email,
            password:values.password
          })
