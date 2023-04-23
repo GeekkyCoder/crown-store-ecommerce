@@ -8,6 +8,10 @@ export const SET_CART_ITEMS_START = () => {
     return {type:CART_ACTION_TYPES.SET_CART_ITEMS_START}
 }
 
+export const SET_CLEAR_ALL_CART_ITEMS  = () => {
+    return {type:CART_ACTION_TYPES.SET_REMOVE_ALL_ITEMS}
+}
+
 export const SET_CART_ITEMS_SUCCESS = (cartItems) => {
     return {type:CART_ACTION_TYPES.SET_CART_ITEMS_SUCCESS,payload:cartItems}
 }

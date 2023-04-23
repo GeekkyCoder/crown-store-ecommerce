@@ -26,7 +26,10 @@ async function addNewItemToCart(req, res) {
     return res.status(400).json("plz add a product first");
   }
 
-  const cartItemExist = await cartsDB.findOne({ id,createdBy:req.user.userId });
+  const cartItemExist = await cartsDB.findOne({
+    id,
+    createdBy: req.user.userId,
+  });
 
   // console.log(cartItemExist)
 
@@ -77,7 +80,7 @@ async function removeItem(req, res) {
   const itemExist = await productExistWithId(itemId);
 
   if (!itemExist) return res.status(500).json("item does not exist");
-  
+
   const deletedItem = await cartsDB.findOneAndDelete({
     id: itemExist.id,
     createdBy,
@@ -86,9 +89,15 @@ async function removeItem(req, res) {
   return res.status(200).json(deletedItem);
 }
 
+async function clearAllCart(req, res) {
+  const items = await cartsDB.deleteMany({});
+  res.status(StatusCodes.OK).json({ items });
+}
+
 module.exports = {
   addNewItemToCart,
   updateCartItem,
   getAllItems,
   removeItem,
+  clearAllCart,
 };

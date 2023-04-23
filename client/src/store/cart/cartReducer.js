@@ -29,6 +29,11 @@ const cartReducer = (state = INITIAL_STATE, action = {}) => {
         isLoading: false,
         error: payload,
       };
+    case CART_ACTION_TYPES.SET_REMOVE_ALL_ITEMS:
+      return {
+        ...state,
+        cartItems: [],
+      };
     case CART_ACTION_TYPES.SET_TOTAL_PRICE:
       return {
         ...state,
