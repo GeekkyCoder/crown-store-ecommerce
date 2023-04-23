@@ -5,10 +5,15 @@ import { currentUserSelector } from "../../store/user/user.selector";
 import { cartTotalPriceSelector } from "../../store/cart/cartSelector";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { SET_CLEAR_ALL_CART_ITEMS } from "../../store/cart/cart.actions";
+import { useNavigate } from "react-router-dom";
 
 function StripePayment() {
   const currentUser = useSelector(currentUserSelector);
   const totalPrice = useSelector(cartTotalPriceSelector);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -87,12 +92,22 @@ function StripePayment() {
           theme: "colored",
         });
       }
+      await axios.get(`/cart/removeAll`, {
+        headers: {
+          Authorization: `Bearer ${currentUser.token}`,
+        },
+      });
+      dispatch(SET_CLEAR_ALL_CART_ITEMS());
+      navigate("/");
     }
   };
 
   return (
     <div className="my-10 font-sans">
-      <form className="mt-20 w-[300px] md:w-[500px] mx-auto" onSubmit={paymentHandler}>
+      <form
+        className="mt-20 w-[300px] md:w-[500px] mx-auto"
+        onSubmit={paymentHandler}
+      >
         <h2 className="text-center my-5 text-[1.4rem] md:text-[2rem] font-bold">
           Credit-Card Payment
         </h2>

@@ -15,18 +15,15 @@ const SignUp = () => {
     validationSchema: signUpSchema,
     onSubmit: async (values, action) => {
       try {
-        const { data } = await axios.post(
-          "/auth/register",
-          {
-            username: values.displayName,
-            email: values.email,
-            password: values.password,
-            confirmPassword: values.confirmPassword,
-          }
-        );
+        const { data } = await axios.post("/auth/register", {
+          username: values.displayName,
+          email: values.email,
+          password: values.password,
+          confirmPassword: values.confirmPassword,
+        });
         console.log(data);
       } catch (err) {
-        console.log(`error: ${err}`);
+        alert(err);
       }
       action.resetForm();
     },

@@ -12,40 +12,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SET_USER_LOGOUT } from "../../store/user/user.actions";
-import { SET_CART_ITEMS_SUCCESS } from "../../store/cart/cart.actions";
+
 
 const AccountMenu = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const currentUser = useSelector(currentUserSelector);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
- 
 
-  const handleClose = () =>{
-    setAnchorEl(null)
-  }
-
-  const handleSignOut = async () => {
-    dispatch(SET_USER_LOGOUT())
+  const handleLogOut = async () => {
+    dispatch(SET_USER_LOGOUT());
     setAnchorEl(null);
     toast.success("logged out successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    navigate("/")
-    dispatch(SET_CART_ITEMS_SUCCESS([]))
-  }
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    navigate("/");
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -58,9 +53,11 @@ const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-          {currentUser &&  <Avatar sx={{ width: 32, height: 32, color: "ButtonFace" }}>
-              {currentUser.user.username[0].toUpperCase()}
-            </Avatar>}
+            {currentUser && (
+              <Avatar sx={{ width: 32, height: 32, color: "ButtonFace" }}>
+                {currentUser.user.username[0].toUpperCase()}
+              </Avatar>
+            )}
           </IconButton>
         </Tooltip>
       </Box>
@@ -97,9 +94,9 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon onClick={handleSignOut}>
-            <Logout  fontSize="small" />
+        <MenuItem onClick={handleLogOut}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>

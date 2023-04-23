@@ -17,23 +17,14 @@ const Signin = () => {
     validationSchema: loginSchema,
     onSubmit: async (values, action) => {
       try {
-         const {data} = await axios.post('/auth/login',{
-           email:values.email,
-           password:values.password
-         })
+        const { data } = await axios.post("/auth/login", {
+          email: values.email,
+          password: values.password,
+        });
         dispatch(FETCH_USER_SUCCESS(data));
         navigate("/shop");
       } catch (err) {
-        switch (err.code) {
-          case "auth/user-not-found":
-            alert(`user does not exist plz sign up first`);
-            break;
-          case "auth/wrong-password":
-            alert("wrong password");
-            break;
-          default:
-            console.log(err);
-        }
+        alert(err);
       }
       action.resetForm();
     },
@@ -63,7 +54,9 @@ const Signin = () => {
             value={formik.values.email}
           />
           {formik.touched.email && formik.errors.email ? (
-            <div className="text-red-700 uppercase font-bold">{formik.errors.email}</div>
+            <div className="text-red-700 uppercase font-bold">
+              {formik.errors.email}
+            </div>
           ) : null}
 
           <input
@@ -77,7 +70,9 @@ const Signin = () => {
             value={formik.values.password}
           />
           {formik.touched.password && formik.errors.password ? (
-            <div className="text-red-700 uppercase font-bold">{formik.errors.password}</div>
+            <div className="text-red-700 uppercase font-bold">
+              {formik.errors.password}
+            </div>
           ) : null}
           <p className="font-sans  mt-5 font-bold text-gray-800 uppercase">
             dont have an account ?

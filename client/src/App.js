@@ -19,11 +19,13 @@ import {
 import { cartCountSelector } from "./store/cart/cartSelector";
 
 import { currentUserSelector } from "./store/user/user.selector";
+import { getCartItems } from "./store/cart/cartSelector";
 
 function App() {
   const dispatch = useDispatch();
   const cartCount = useSelector(cartCountSelector);
   const currentUser = useSelector(currentUserSelector);
+  const cartData = useSelector(getCartItems)
 
   useEffect(() => {
     const fetchCatogories = async () => {
@@ -55,6 +57,9 @@ function App() {
     };
     fetchCartData();
   }, [cartCount,currentUser]);
+
+
+  console.log(cartData)
 
   return (
     <div>

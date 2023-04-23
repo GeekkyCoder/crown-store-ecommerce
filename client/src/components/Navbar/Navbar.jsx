@@ -48,6 +48,7 @@ const Navbar = () => {
 
   const checkoutRouteHandler = () => {
     navigate("/cart");
+    toggleDrawer("right", true);
   };
 
   return (
@@ -61,9 +62,11 @@ const Navbar = () => {
           <Link to={"/shop"} className="text-gray-500 hover:text-black">
             Shop
           </Link>
-          <Link to={"/auth"} className="text-gray-500 hover:text-black">
-            Sign in
-          </Link>
+          {!currentUser && (
+            <Link to={"/auth"} className="text-gray-500 hover:text-black">
+              Sign in
+            </Link>
+          )}
 
           {["right"].map((anchor) => (
             <Fragment key={anchor}>
@@ -80,7 +83,7 @@ const Navbar = () => {
                         className="flex flex-col text-gray-500"
                         key={cartItem.id}
                       >
-                       <CartMenu item={cartItem} />
+                        <CartMenu item={cartItem} />
                       </div>
                     );
                   })}
@@ -97,7 +100,7 @@ const Navbar = () => {
           ))}
 
           {currentUser ? <AccountMenu /> : <p>not logged in</p>}
-          {cartData.length ? (
+          {currentUser && cartData.length > 0 && (
             <div>
               {/* <div>{cartData.length}</div> */}
               <Badge badgeContent={cartData.length} color="primary">
@@ -107,8 +110,6 @@ const Navbar = () => {
                 />
               </Badge>
             </div>
-          ) : (
-            <ShoppingCartOutlinedIcon fontSize="large" />
           )}
         </div>
       </div>

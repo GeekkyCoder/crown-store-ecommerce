@@ -1,12 +1,17 @@
-const { addNewItemToCart, updateCartItem, getAllItems, removeItem } = require("./cart.controller")
+const {
+  addNewItemToCart,
+  updateCartItem,
+  getAllItems,
+  removeItem,
+  clearAllCart
+} = require("./cart.controller");
 
+const cartRouter = require("express").Router();
 
-const cartRouter = require("express").Router()
+cartRouter.get("/", getAllItems);
+cartRouter.post("/", addNewItemToCart);
+cartRouter.put("/:id", updateCartItem);
+cartRouter.delete("/:id", removeItem);
+cartRouter.get("/removeAll", clearAllCart);
 
-cartRouter.get("/", getAllItems)
-cartRouter.post("/", addNewItemToCart)
-cartRouter.put("/:id", updateCartItem)
-cartRouter.delete("/:id",removeItem)
-
-
-module.exports = cartRouter
+module.exports = cartRouter;
