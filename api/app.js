@@ -48,8 +48,6 @@ app.use("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "./client/build",'index.html'));
 });
 
-
-
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
